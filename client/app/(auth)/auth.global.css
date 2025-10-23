@@ -74,3 +74,15 @@ letter-spacing: -0.024rem;
     flex-direction: column;
     margin: 0 0 2rem 0;
 }
+
+.error-text{
+  color: #FF4D4D;
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+button[disabled] {
+  background: var(--black-200, #E0E0E0);
+  cursor: not-allowed;
+}
