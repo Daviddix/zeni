@@ -1,5 +1,7 @@
 "use client";
 
+import { auth } from "@/firebase/firebaseClient";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -64,12 +66,53 @@ function Signup() {
       setSubmissionStatus("idle")
     }
   }
+
+  async function handleSignup(e: React.FormEvent) {
+    setSubmissionStatus("submitting");
+    setErrors("");
+
+    try {
+      // Sign up the user with Firebase Auth
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+
+      const idToken = await userCredential.user.getIdToken();
+
+      // Send ID token to backend to create secure session cookie
+      const res = await fetch(`${BASE_URL}/api/session-logic/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ idToken }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to create session cookie");
+      }
+
+      // Continue to next step of signup
+      router.push("/signup/info");
+    } catch(err: unknown){
+      console.error("Error during signup:", err);
+      setErrors(
+        err && typeof err === 'object' && 'message' in err 
+          ? String(err.message) 
+          : "Unknown error"
+      );
+    }
+    finally{
+      setSubmissionStatus("idle")
+    }
+  }
   
   return (
     <div className="signup-page">
       <form onSubmit={(e) => {
         e.preventDefault();
-        sendDataToBackend();
+        handleSignup(e);
       }}>
         <div>
           <label className="auth-label" htmlFor="email">

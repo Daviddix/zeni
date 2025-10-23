@@ -74,14 +74,12 @@ async function signUserUp(req, res) {
 async function finishOnboardingProcess(req, res) {
   try {
     const { fullname, image } = req.body;
-    const { uid } = req.cookies;
-
-    console.log(req.cookies)
+    const { uid } = req.user;
 
     if (!uid) {
       return res.status(401).json({
         success: false,
-        message: 'Unauthorized: No UID provided in cookies'
+        message: 'Unauthorized: No UID provided in user object'
       });
     }
 
@@ -120,12 +118,12 @@ async function finishOnboardingProcess(req, res) {
 async function updateUserCurrency(req, res){
   try{
     const { currency } = req.body;
-    const { uid } = req.cookies;
+    const { uid } = req.user;
 
     if (!uid) {
       return res.status(401).json({
         success: false,
-        message: 'Unauthorized: No UID provided in cookies'
+        message: 'Unauthorized: No UID provided in user object'
       });
     }
 

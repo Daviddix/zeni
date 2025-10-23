@@ -3,6 +3,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const userRoutes = require('./routes/users.routes.js');
+const sessionRoutes = require('./routes/auth.routes.js');
 const cookieParser = require('cookie-parser');
 
 const app = express();
@@ -20,6 +21,7 @@ app.use(cookieParser());
 
 // Routes
 app.use('/api/users', userRoutes);
+app.use("/api/session-logic", sessionRoutes);
 
 
 // Start server
