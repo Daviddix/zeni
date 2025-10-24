@@ -7,15 +7,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 const BASE_URL = process.env.BACKEND_URL || "http://localhost:3001";
 
-type signUpResponse = {
-  success : boolean,
-  message : string,
-  uid : string,
-  email : string
-}
-
-
-
 function Signup() {
   const [formData, setFormData] = useState({
     email : "",
@@ -34,40 +25,7 @@ function Signup() {
     });
   }
 
-  async function sendDataToBackend(){
-    setSubmissionStatus("submitting")
-    try{
-      const rawData = await fetch(`${BASE_URL}/api/users/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(formData),
-      }); 
-
-      const resData: signUpResponse = await rawData.json();
-
-      if(!rawData.ok){
-        throw new Error(resData.message || "Signup failed");
-      }
-
-      router.push("/signup/info");
-    }
-    catch(err: unknown){
-      console.error("Error during signup:", err);
-      setErrors(
-        err && typeof err === 'object' && 'message' in err 
-          ? String(err.message) 
-          : "Unknown error"
-      );
-    }
-    finally{
-      setSubmissionStatus("idle")
-    }
-  }
-
-  async function handleSignup(e: React.FormEvent) {
+  async function handleSignup() {
     setSubmissionStatus("submitting");
     setErrors("");
 
@@ -112,7 +70,7 @@ function Signup() {
     <div className="signup-page">
       <form onSubmit={(e) => {
         e.preventDefault();
-        handleSignup(e);
+        handleSignup();
       }}>
         <div>
           <label className="auth-label" htmlFor="email">
