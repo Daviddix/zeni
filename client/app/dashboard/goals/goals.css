@@ -1,0 +1,172 @@
+.goals-main {
+    padding: 2rem 2rem 10rem;
+    max-width: 70rem;
+    margin: auto;
+}
+
+.goals-main header p {
+    color: var(--black-700, #4D4D4D);
+    font-family: "Instrument Sans";
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.024rem;
+}
+
+.goals-main header h1 {
+    color: var(--black, #000);
+    font-family: "Instrument Sans";
+    font-size: 2.2rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.052rem;
+}
+
+.all-goals-container .new-goal {
+    border-radius: 1rem;
+    border: 1px dashed rgba(0, 0, 0, 0.10);
+    background: #FFF;
+    height: 12rem;
+    width: 100%;
+    margin: 2rem 0;
+    cursor: pointer;
+
+    p {
+        color: var(--black-600, #666);
+        font-family: "Instrument Sans";
+        font-size: 1.2rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: -0.024rem;
+    }
+}
+
+.goals-main .budget-goals-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin: 0 0 2rem 0;
+}
+
+.goals-main .zeni-ai-button {
+    position: fixed;
+    bottom: 8rem;
+    right: 2rem;
+}
+
+.goals-ai-container .ai-analysis-goals {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 66;
+    background: rgba(0, 0, 0, 0.367);
+    backdrop-filter: blur(10px);
+}
+
+.ai-analysis-goals .ai-analysis-content {
+    background-color: var(--white);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 70%;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+}
+
+.ai-analysis-goals .ai-analysis-content header {
+    border-radius: 2rem 2rem 0 0;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    background: var(--primary-light-100, #F1ECFE);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 6.2rem;
+
+    p {
+        color: var(--primary-light-900, #8450F2);
+        font-family: "Instrument Sans";
+        font-size: 1.2rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: -0.012rem;
+    }
+
+    button{
+        background-color: transparent;
+        border: none;
+
+    }
+}
+
+.ai-analysis-content .ai-analysis-body{
+    height: 100%;
+}
+
+.ai-analysis-body .empty-text{
+    color: var(--primary-dark-600, #2F1860);
+text-align: center;
+font-family: "Instrument Sans";
+font-size: 1.8rem;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+letter-spacing: -0.018rem;
+max-width: 60%;
+margin:6rem auto;
+}
+
+@media screen and (min-width: 900px) {
+    .goals-main .budget-goals-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .goals-main {
+    padding: 2rem;
+    width: 100%;
+    max-width: 130rem;
+    margin:0 auto;
+}
+
+.goals-ai-container{
+    gap: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 40%;
+}
+
+.goals-ai-container .ai-analysis-goals {
+    z-index: 66;
+    background:none;
+    backdrop-filter: unset;
+    border-top: none;
+    height: auto;
+    position: sticky;
+    top: 1rem;
+}
+
+.ai-analysis-goals .ai-analysis-content {
+    background-color: var(--white);
+    position: static;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 2rem;
+border: 1px solid rgba(0, 0, 0, 0.10);
+background: #FFF;
+}
+
+.zeni-ai-button{
+    display: none;
+}
+
+}

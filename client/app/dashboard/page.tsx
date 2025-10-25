@@ -1,3 +1,4 @@
+import SingleGoal from "@/components/dashboard/SingleGoal/SingleGoal"
 import "./dashboard.css"
 
 function page() {
@@ -83,55 +84,11 @@ function page() {
           <h1>Budget Goals</h1>
 
           <div className="budget-goals-container">
-            <div className="single-budget-goal">
-              <header>
-                <p>Spend less than $100 this week</p>
-              </header>
+            
 
-              <div className="budget-details">
-                <h2>80%</h2>
-
-                <div className="progress-bar">
-                  <div className="done"></div>
-                  <div className="remaining"></div>
-                </div>
-
-                <div className="price-details">
-                  <div className="spent">
-                    <p>$80 <small>spent</small></p>
-                  </div>
-
-                  <div className="remaining">
-                    <p>$20 <small>remaining</small></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-             <div className="single-budget-goal">
-              <header>
-                <p>Spend less than $100 this week</p>
-              </header>
-
-              <div className="budget-details">
-                <h2>80%</h2>
-
-                <div className="progress-bar">
-                  <div className="done"></div>
-                  <div className="remaining"></div>
-                </div>
-
-                <div className="price-details">
-                  <div className="spent">
-                    <p>$80 <small>spent</small></p>
-                  </div>
-
-                  <div className="remaining">
-                    <p>$20 <small>remaining</small></p>
-                  </div>
-                </div>
-              </div>
-            </div>
+             <SingleGoal />
+             
+             <SingleGoal />
           </div>
         </div>
       </div>

@@ -49,6 +49,10 @@ html{
 
 }
 
+button{
+  cursor: pointer;
+}
+
 .primary-button{
   display: flex;
 height: 44px;
@@ -65,4 +69,21 @@ cursor: pointer;
 border-radius: 222px;
 border: 1px solid var(--primary-light-400, #C8B1F9);
 background: var(--primary-base, #763DF1);
+}
+
+.zeni-ai-button{
+  width: 4rem;
+  height: 4rem;
+  flex-shrink: 0;
+  background-color: var(--white, #FFF);
+  filter: drop-shadow(0 0 10px rgba(118, 61, 241, 0.20));
+  border: none;
+  border-radius:50%;
+  -webkit-border-radius:50% ;
+  -moz-border-radius:50% ;
+  -ms-border-radius:50% ;
+  -o-border-radius:50% ;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
