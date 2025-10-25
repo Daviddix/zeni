@@ -1,10 +1,19 @@
+import Image from "next/image"
 import "./SingleGoal.css"
+import deleteIcon from "@/public/images/goal-delete-icon.svg"
 
 function SingleGoal() {
   return (
     <div className="single-budget-goal">
               <header>
                 <p>Spend less than $100 this week</p>
+
+                <button>
+                  <Image 
+                  alt="delete goal"
+                  src={deleteIcon}
+                  />
+                </button>
               </header>
 
               <div className="budget-details">

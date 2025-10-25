@@ -122,13 +122,6 @@ max-width: 60%;
 margin:6rem auto;
 }
 
-@media screen and (min-width: 900px) {
-    .goals-main .budget-goals-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 2rem;
-    }
-}
 
 @media screen and (min-width: 900px) {
     .goals-main {
@@ -137,6 +130,12 @@ margin:6rem auto;
     max-width: 130rem;
     margin:0 auto;
 }
+
+    .goals-main .budget-goals-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+    }
 
 .goals-ai-container{
     gap: 2rem;
@@ -152,6 +151,9 @@ margin:6rem auto;
     height: auto;
     position: sticky;
     top: 1rem;
+}
+.ai-analysis-goals .ai-analysis-content header > button{
+    display: none;
 }
 
 .ai-analysis-goals .ai-analysis-content {

@@ -14,6 +14,9 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.10);
     background: var(--primary-light-100, #F1ECFE);
     padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .single-budget-goal header>p {
@@ -24,6 +27,11 @@
     font-weight: 500;
     line-height: normal;
     letter-spacing: -0.012rem;
+}
+
+.single-budget-goal header > button{
+    background-color: transparent;
+    border: none;
 }
 
 .single-budget-goal .budget-details {
