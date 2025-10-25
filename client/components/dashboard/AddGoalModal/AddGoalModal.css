@@ -1,0 +1,97 @@
+.modal-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.367);
+    backdrop-filter: blur(10px);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-bg .add-goal-modal {
+    border-radius: 2rem;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    background: #FFF;
+    width: 90%;
+    max-width: 38rem;
+    height: 27.7rem;
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 1rem 0;
+}
+
+.add-goal-modal header {
+    border-bottom: var(--border-style);
+    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.add-goal-modal header > button{
+    background-color: transparent;
+    border: none;
+}
+
+.add-goal-modal-header-text h3 {
+    color: #000;
+    font-family: "Instrument Sans";
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.012rem;
+}
+
+.add-goal-modal .add-goal-modal-header-text>p {
+    color: #000;
+    font-family: "Instrument Sans";
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.012rem;
+}
+
+.add-goal-form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.add-goal-form textarea {
+    flex: 1;
+    min-width: 95%;
+    margin: auto;
+    resize: none;
+    border-radius: 1rem;
+    border: 0.1px solid #99999936;
+    background: #F2F2F2;
+    padding: 1rem;
+    margin: 0 auto 1rem auto;
+    font-size: 2.2rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.022rem;
+}
+
+.add-goal-form textarea::placeholder {
+    color: var(--black-400, #999);
+    font-family: "Instrument Sans";
+    font-size: 2.2rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.022rem;
+}
+
+.add-goal-form .primary-button {
+    max-width: 95%;
+}

@@ -81,8 +81,3 @@ letter-spacing: -0.024rem;
   font-size: 1.2rem;
   font-weight: 500;
 }
-
-button[disabled] {
-  background: var(--black-200, #E0E0E0);
-  cursor: not-allowed;
-}

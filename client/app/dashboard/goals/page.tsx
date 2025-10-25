@@ -4,6 +4,8 @@ import addIcon from "@/public/images/add-dark-icon.svg"
 import downIcon from "@/public/images/down-icon.svg"
 import zeniAiIcon from "@/public/images/zeni-ai-icon.svg"
 import Image from "next/image"
+import DeleteGoalModal from "@/components/dashboard/DeleteGoalModal/DeleteGoalModal"
+import AddGoalModal from "@/components/dashboard/AddGoalModal/AddGoalModal"
 
 function page() {
   return (
@@ -61,6 +63,9 @@ function page() {
       </div>
 
       </div>
+
+      {/* <DeleteGoalModal /> */}
+      <AddGoalModal />
 
     </main>
   )
