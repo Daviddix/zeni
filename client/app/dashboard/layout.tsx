@@ -9,6 +9,7 @@ import GoalsIcon from "@/components/dashboard/GoalsIcon/GoalsIcon";
 import EntriesIcon from "@/components/dashboard/EntriesIcon/EntriesIcon";
 import SingleNavLink from "@/components/dashboard/SingleNavLink/SingleNavLink";
 import { usePathname } from "next/navigation";
+import AddIcon from "@/components/dashboard/AddIcon/AddIcon";
 
 export default function DashboardLayout({
   children,
@@ -25,6 +26,11 @@ export default function DashboardLayout({
     text : "budget Goals",
     Icon : GoalsIcon,
   },
+  
+  {
+    text : "Main Button",
+    Icon : AddIcon,
+  },
 {
     href : "/dashboard/entries",
     text : "Your Entries",
@@ -38,7 +44,7 @@ export default function DashboardLayout({
     text={data.text}
     href={data.href}
     Icon={data.Icon}
-    key={data.href}
+    key={data.text}
     />
   })
   return (
@@ -51,6 +57,7 @@ export default function DashboardLayout({
     </header>
 
       <main className="dashboard-main">
+
         <aside className="dashboard-sidebar">
 
           <div className="main-button">
@@ -69,12 +76,21 @@ export default function DashboardLayout({
             <p className="dashboard-links-heading">GENERAL</p>
 
             <nav>
-              {mappedLinkData}              
+              {mappedLinkData}   
+              <Image 
+              src=""
+              
+              width={40}
+              height={40}
+              alt="profile picture"
+              />   
             </nav>
           </div>
 
           <div className="profile-section">
             <Image 
+            width={20}
+            height={20}
             alt="Your profile picture"
             src=""
             />
