@@ -21,12 +21,12 @@ export default function DashboardLayout({
     Icon : OverviewIcon,
   },
 {
-    href : "/goals",
-    text : "budgetGoals",
+    href : "/dashboard/goals",
+    text : "budget Goals",
     Icon : GoalsIcon,
   },
 {
-    href : "/entries",
+    href : "/dashboard/entries",
     text : "Your Entries",
     Icon : EntriesIcon,
   }]

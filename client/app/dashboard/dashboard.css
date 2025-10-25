@@ -1,0 +1,334 @@
+.overview-main {
+    display: grid;
+    grid-template-columns: 1fr 40%;
+    padding: 2rem;
+    width: 100%;
+    gap: 2rem;
+}
+
+.left-side .left-side-header {
+    margin: 0 0 2rem 0;
+}
+
+.left-side .left-side-header p {
+    color: var(--black-700, #4D4D4D);
+    font-family: "Instrument Sans";
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.024rem;
+}
+
+.left-side .left-side-header h1 {
+    color: var(--black, #000);
+    font-family: "Instrument Sans";
+    font-size: 2.6rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.052rem;
+}
+
+.left-side .spending-card-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    margin: 0 0 2rem 0;
+    max-width: 90%;
+}
+
+.spending-card-container .single-spending-card {
+    border-radius: 2rem;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    background: #FFF;
+    flex: 1;
+    height: 13rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.single-spending-card:first-of-type {
+    border-radius: 2rem;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    background: linear-gradient(122deg, #FFF 10.23%, #F1ECFE 100%);
+}
+
+.single-spending-card h2 {
+    color: var(--black-700, #4D4D4D);
+    font-family: "Instrument Sans";
+    font-size: 3.2rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.032rem;
+    margin: 0 0 .5rem 0;
+}
+
+.single-spending-card:first-of-type h2 {
+    color: var(--black);
+}
+
+.single-spending-card p {
+    color: var(--black-400, #999);
+    font-family: "Instrument Sans";
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.012rem;
+}
+
+.table-card {
+    background: #fff;
+    border-radius: 2rem;
+    width: 100%;
+    overflow: hidden;
+    border: var(--border-style);
+    margin: 0 0 2rem 0;
+}
+
+.table-card .table-card-header {
+    padding: 2rem;
+}
+
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.transaction-table th,
+.transaction-table td {
+    padding: 16px 20px;
+    text-align: left;
+}
+
+.transaction-table thead th {
+    color: #000;
+    font-family: "Instrument Sans";
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -0.012rem;
+    border-bottom: 1px solid #eee;
+}
+
+.transaction-table tbody tr:not(:last-child) {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.transaction-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    background-color: #e0e0e0;
+    color: #333;
+    font-weight: 600;
+    font-size: 0.9rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.name {
+    font-weight: 500;
+}
+
+table td {
+    color: var(--black-800, #333);
+    font-family: "Instrument Sans";
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.012rem;
+}
+
+.badge {
+    border-radius: 22.2rem;
+    border: 0.1px solid #532ba94f;
+    background: var(--primary-light-100, #F1ECFE);
+    color: var(--black-800, #333);
+    font-family: "Instrument Sans";
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -0.01rem;
+    padding: .5rem 1rem;
+}
+
+.caps-gray-text {
+    color: var(--black-400, #999);
+    font-family: "Instrument Sans";
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.012rem;
+    text-transform: uppercase;
+}
+
+.budget-goals>h1 {
+    color: var(--black-400, #999);
+    font-family: "Instrument Sans";
+    font-size: 1.4rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.014rem;
+    margin: 0 0 1rem 0;
+}
+
+.budget-goals .budget-goals-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.budget-goals-container .single-budget-goal {
+    border: var(--border-style);
+    border-radius: 1rem;
+    -webkit-border-radius: 1rem;
+    -moz-border-radius: 1rem;
+    -ms-border-radius: 1rem;
+    -o-border-radius: 1rem;
+    padding: 0 0 1rem 0;
+}
+
+.single-budget-goal header {
+    border-radius: 1rem 1rem 0 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.10);
+    background: var(--primary-light-100, #F1ECFE);
+    padding: 1rem;
+}
+
+.single-budget-goal header>p {
+    color: var(--primary-dark-600, #2F1860);
+    font-family: "Instrument Sans";
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -0.012rem;
+}
+
+.single-budget-goal .budget-details {
+    padding-inline: 1rem;
+    margin: 1rem 0 0 0;
+}
+
+.budget-details .progress-bar {
+    margin: 1rem 0;
+    display: grid;
+    grid-template-columns: 1fr 20%;
+    gap: .4rem;
+}
+
+.budget-details .progress-bar>div {
+    border-radius: 0.2rem;
+    height: 1.2rem;
+}
+
+.progress-bar .done {
+    background-color: var(--primary-base);
+}
+
+.progress-bar .remaining {
+    background: var(--black-200, #CCC);
+}
+
+.budget-details .price-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.budget-details .price-details p {
+    color: var(--black-700, #4D4D4D);
+    font-family: "Instrument Sans";
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.01rem;
+}
+
+.budget-details .price-details small {
+    color: var(--black-700, #4D4D4D);
+    font-family: "Instrument Sans";
+    font-size: 0.8rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.006rem;
+}
+
+.gray-header {
+    border-radius: 2rem 2rem 0 0;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    background: #FAFAFA;
+}
+
+.right-side .spending-by-category{
+    border: var(--border-style);
+    border-radius: 2rem;
+    position: sticky;
+    top:2rem;
+    height: calc(90vh - 5rem);
+    -webkit-border-radius: 2rem;
+    -moz-border-radius: 2rem;
+    -ms-border-radius: 2rem;
+    -o-border-radius: 2rem;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+.right-side .spending-by-category > header{
+    padding: 2rem;
+    border-inline: none;
+    border-top: none;
+}
+
+.spending-by-category .chart-items{
+    border-top: var(--border-style);
+    padding: 1rem 2rem;
+    height: 14rem;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.chart-items .single-chart-item{
+    display: flex;
+    align-items: center;
+}
+
+.single-chart-item .square{
+    width: 1.3rem;
+    height: 1.3rem;
+    margin: 0 1rem 0 0;
+    background-color: var(--primary-base);
+}
+
+.single-chart-item p{
+    color: #000;
+font-family: "Instrument Sans";
+font-size: 1.2rem;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: -0.012rem;
+}
