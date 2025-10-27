@@ -67,7 +67,7 @@ function page() {
 
       {/* <DeleteGoalModal /> */}
       {/* <AddGoalModal /> */}
-      <AddNewEntryModal />
+      {/* <AddNewEntryModal /> */}
 
     </main>
   )

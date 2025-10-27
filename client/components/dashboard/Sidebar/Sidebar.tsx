@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import AddIcon from "@/components/dashboard/AddIcon/AddIcon";
 import plusIcon from "@/public/images/add-icon.svg"
 import Image from "next/image";
+import placeholderImage from "@/public/images/placeholder-image.png"
 
 
 
@@ -66,11 +67,11 @@ function Sidebar() {
             <nav>
               {mappedLinkData}   
               <Image 
-              src=""
-              
+              src={placeholderImage}
               width={40}
               height={40}
               alt="profile picture"
+              className="profile-picture"
               />   
             </nav>
           </div>
@@ -80,7 +81,8 @@ function Sidebar() {
             width={20}
             height={20}
             alt="Your profile picture"
-            src=""
+            className="profile-picture"
+            src={placeholderImage}
             />
 
             <p>Logout</p>

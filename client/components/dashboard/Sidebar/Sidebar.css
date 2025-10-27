@@ -64,6 +64,14 @@
     background-color: var(--primary-light-100);
 }
 
+.dashboard-sidebar .profile-picture{
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+
 @media screen and (min-width: 900px) {
      .dashboard-sidebar {
         border-right: var(--border-style);

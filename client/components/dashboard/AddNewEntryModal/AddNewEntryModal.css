@@ -40,6 +40,10 @@
     border: none;
 }
 
+.add-entry-modal .add-entry-modal-header-text{
+    flex:1;
+}
+
 .add-entry-modal-header-text h3 {
     color: #000;
     font-family: "Instrument Sans";
