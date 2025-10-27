@@ -6,6 +6,7 @@ import zeniAiIcon from "@/public/images/zeni-ai-icon.svg"
 import Image from "next/image"
 import DeleteGoalModal from "@/components/dashboard/DeleteGoalModal/DeleteGoalModal"
 import AddGoalModal from "@/components/dashboard/AddGoalModal/AddGoalModal"
+import AddNewEntryModal from "@/components/dashboard/AddNewEntryModal/AddNewEntryModal"
 
 function page() {
   return (
@@ -65,7 +66,8 @@ function page() {
       </div>
 
       {/* <DeleteGoalModal /> */}
-      <AddGoalModal />
+      {/* <AddGoalModal /> */}
+      <AddNewEntryModal />
 
     </main>
   )

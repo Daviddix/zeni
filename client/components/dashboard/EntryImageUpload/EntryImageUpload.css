@@ -1,0 +1,50 @@
+.entry-image-upload {
+    width: 80%;
+    margin: 0  0 1rem 1rem;
+    border-radius: 0.8rem;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    background: #FFF;
+    display: grid;
+    grid-template-columns: 7.9rem 1fr auto;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: .5rem;
+}
+
+.entry-image-upload .uploaded-image {
+    border-radius: 0.5rem;
+    border: solid;
+    height: 6.6rem;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.entry-image-upload .image-info{
+    align-self: flex-end;
+}
+
+.entry-image-upload .image-info h3{
+    color: #000;
+font-family: "Instrument Sans";
+font-size: 1rem;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: -0.01rem;
+}
+
+.entry-image-upload .image-info small{
+    color: var(--black-500, #808080);
+font-family: "Instrument Sans";
+font-size: 0.8rem;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: -0.008rem;
+}
+
+.entry-image-upload .close{
+    background-color: transparent;
+    border: none;
+}

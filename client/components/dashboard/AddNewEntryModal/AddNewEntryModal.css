@@ -1,0 +1,134 @@
+.modal-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.367);
+    backdrop-filter: blur(10px);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-bg .add-entry-modal {
+    border-radius: 2rem;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    background: #FFF;
+    width: 90%;
+    max-width: 38rem;
+    height: 42.1rem;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 1rem 0;
+}
+
+.add-entry-modal header {
+    border-bottom: var(--border-style);
+    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.add-entry-modal header>button {
+    background-color: transparent;
+    border: none;
+}
+
+.add-entry-modal-header-text h3 {
+    color: #000;
+    font-family: "Instrument Sans";
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.012rem;
+}
+
+.add-entry-modal .add-entry-modal-header-text>p {
+    color: #000;
+    font-family: "Instrument Sans";
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.012rem;
+}
+
+.add-goal-form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.add-entry-modal .add-entry-messages {
+    width: 90%;
+    margin: auto;
+}
+
+.add-entry-messages>h1.empty-text {
+    color: var(--primary-dark-600, #2F1860);
+    text-align: center;
+    font-family: "Instrument Sans";
+    font-size: 2.2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.022rem;
+    max-width: 70%;
+    margin: auto;
+}
+
+.add-entry-form {
+    width: 95%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.add-entry-form .input-container {
+    flex: 1;
+    border-radius: 1rem;
+    border: 0.1px solid var(--black-400, #999);
+    background: #F2F2F2;
+    height: 4.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    padding: 0 1rem 0 0;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.add-entry-form .input-container button{
+    border: none;
+    background-color: transparent;
+}
+
+.add-entry-form .input-container input {
+    align-self: stretch;
+    flex: 1;
+    background-color: transparent;
+    border: none;
+    padding: 0 0 0 1rem;
+    outline: none;
+    min-width: 2rem;
+}
+
+.add-entry-form > button {
+    width: 4.1rem;
+    height: 4.1rem;
+    flex-shrink: 0;
+    border-radius: 22.2rem;
+    border: 0.1px solid var(--black-400, #999);
+    background: var(--primary-base, #763DF1);
+}
