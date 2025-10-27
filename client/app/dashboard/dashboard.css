@@ -79,93 +79,6 @@
     letter-spacing: -0.012rem;
 }
 
-.table-card {
-    background: #fff;
-    border-radius: 2rem;
-    width: 100%;
-    overflow: hidden;
-    border: var(--border-style);
-    margin: 0 0 2rem 0;
-}
-
-.table-card .table-card-header {
-    padding: 2rem;
-}
-
-.transaction-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.transaction-table th,
-.transaction-table td {
-    padding: 16px 12px;
-    text-align: left;
-}
-
-.transaction-table thead th {
-    color: #000;
-    font-family: "Instrument Sans";
-    font-size: 1.2rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    letter-spacing: -0.012rem;
-    border-bottom: 1px solid #eee;
-}
-
-.transaction-table tbody tr:not(:last-child) {
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.transaction-cell {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.avatar {
-    background-color: #e0e0e0;
-    color: #333;
-    font-weight: 600;
-    font-size: 0.9rem;
-    width: 3rem;
-    flex-shrink: 0;
-    height: 3rem;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.name {
-    font-weight: 500;
-}
-
-table td {
-    color: var(--black-800, #333);
-    font-family: "Instrument Sans";
-    font-size: 1.2rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    letter-spacing: -0.012rem;
-}
-
-.badge {
-    border-radius: 22.2rem;
-    border: 0.1px solid #532ba94f;
-    background: var(--primary-light-100, #F1ECFE);
-    color: var(--black-800, #333);
-    font-family: "Instrument Sans";
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    letter-spacing: -0.01rem;
-    padding: .5rem 1rem;
-}
-
 .caps-gray-text {
     color: var(--black-400, #999);
     font-family: "Instrument Sans";
@@ -327,12 +240,6 @@ letter-spacing: -0.012rem;
     line-height: normal;
     letter-spacing: -0.012rem;
 }
-
-.transaction-table th,
-.transaction-table td {
-    padding: 16px 20px;
-}
-
 
 .budget-goals .budget-goals-container {
     display: grid;
