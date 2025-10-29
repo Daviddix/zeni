@@ -35,7 +35,10 @@ async function createTransactionFromText(req, res){
     const {uid} = req.user 
     const {userText} = req.body 
 
-    
+    //send text to AI agent 
+    //AI agent parses text and returns structured output
+    //OR
+    //output is put in DB by AI agent via tool calling 
   }
   catch(err){
 
