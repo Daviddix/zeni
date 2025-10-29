@@ -1,5 +1,4 @@
-const {auth, db} = require("../config/firebase");
-const timeBeforeItExpires = 10 * 60 * 1000; // 10 minutes in milliseconds
+const {db} = require("../config/firebase");
 const { uploadImageToCloudinaryAndReturnUrl } = require("../utils/users.utils");
 
 async function finishOnboardingProcess(req, res) {
@@ -86,7 +85,6 @@ async function updateUserCurrency(req, res){
     });
   }
 }
-
 
 async function getUserInfo(req, res) {
   try {

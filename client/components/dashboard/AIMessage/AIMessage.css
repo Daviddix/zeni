@@ -1,0 +1,16 @@
+.ai-message{
+    margin: 0 0 2rem 0;
+}
+
+.ai-message img{
+    margin: 0 0 .5rem;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+
+.ai-message p {
+    font-size: 1.2rem;
+}

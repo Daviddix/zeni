@@ -9,10 +9,15 @@ import AddIcon from "@/components/dashboard/AddIcon/AddIcon";
 import plusIcon from "@/public/images/add-icon.svg"
 import Image from "next/image";
 import placeholderImage from "@/public/images/placeholder-image.png"
+import { useAtomValue, useSetAtom } from "jotai";
+import { showAddTransactionModalAtom, userInfoAtom } from "@/states/dashboard.states";
 
 
 
 function Sidebar() {
+  const userInfo = useAtomValue(userInfoAtom)
+  const setShowAddTransactionModal = useSetAtom(showAddTransactionModalAtom)
+
     const linksData = [{
     href : "/dashboard",
     text : "Overview",
@@ -51,7 +56,9 @@ function Sidebar() {
 
           <div className="main-button">
 
-          <button className="primary-button">
+          <button 
+          onClick={()=>setShowAddTransactionModal(true)}
+          className="primary-button">
             <Image 
             src={plusIcon}
             alt="plus icon"
@@ -67,7 +74,7 @@ function Sidebar() {
             <nav>
               {mappedLinkData}   
               <Image 
-              src={placeholderImage}
+              src={userInfo?.user.image || placeholderImage}
               width={40}
               height={40}
               alt="profile picture"
@@ -82,7 +89,7 @@ function Sidebar() {
             height={20}
             alt="Your profile picture"
             className="profile-picture"
-            src={placeholderImage}
+            src={userInfo?.user.image || placeholderImage}
             />
 
             <p>Logout</p>

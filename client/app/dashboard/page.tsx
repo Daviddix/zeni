@@ -1,14 +1,44 @@
+"use client"
 import SingleGoal from "@/components/dashboard/SingleGoal/SingleGoal"
 import "./dashboard.css"
 import TransactionsTable from "@/components/dashboard/TransactionsTable/TransactionsTable"
+import TodaysDate from "@/components/dashboard/TodaysDate/TodaysDate"
+import { useEffect } from "react"
+import { useSetAtom } from "jotai"
+import { userInfoAtom } from "@/states/dashboard.states"
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
-function page() {
+function DashboardPage() {
+  const setUserInfo = useSetAtom(userInfoAtom)
+
+  async function getUserInfo(){
+    try{
+      const rawFetch = await fetch(`${BASE_URL}/api/users/info`, {
+        credentials : "include"
+      })
+
+      const responseInJson : userDetailsType = await rawFetch.json()
+
+      if(!rawFetch.ok){
+        throw new Error("Couldn't get user information")
+      }
+
+      setUserInfo(responseInJson)
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
+  useEffect(()=>{
+    getUserInfo()
+  }, [])
   return (
     <main className="overview-main">
       <div className="left-side">
 
         <header className="left-side-header">
-          <p>Monday 25th October, 2025</p>
+          <TodaysDate />
           <h1>Welcome back, Here&apos;s your Overview</h1>
         </header>
 
@@ -35,10 +65,7 @@ function page() {
           <h1>Budget Goals</h1>
 
           <div className="budget-goals-container">
-            
-
              <SingleGoal />
-             
              <SingleGoal />
           </div>
         </div>
@@ -79,4 +106,4 @@ function page() {
   )
 }
 
-export default page
+export default DashboardPage

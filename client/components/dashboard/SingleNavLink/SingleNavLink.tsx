@@ -1,5 +1,7 @@
 import React from "react";
 import Link from "next/link";
+import { useSetAtom } from "jotai";
+import { showAddTransactionModalAtom } from "@/states/dashboard.states";
 
 type singleNavLinkProps = {
   currentPath: string;
@@ -9,13 +11,17 @@ type singleNavLinkProps = {
 };
 
 function SingleNavLink({ currentPath, href, Icon, text }: singleNavLinkProps) {
+    const setShowAddTransactionModal = useSetAtom(showAddTransactionModalAtom)
+
   const isActive = currentPath === href;
 
   const url = href ?? "";
 
   if (text === "Main Button") {
     return (
-      <button className="primary-button">
+      <button
+      onClick={()=>setShowAddTransactionModal(true)}
+       className="primary-button">
         <Icon />
       </button>
     );
