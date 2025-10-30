@@ -2,8 +2,13 @@ import Image from "next/image"
 import "./AddGoalModal.css"
 import addIcon from "@/public/images/add-new-goal-icon.svg"
 import closeModalIcon from "@/public/images/close-icon.svg"
+import { Dispatch, SetStateAction } from "react"
 
-function AddGoalModal() {
+type addGoalModalProps = {
+  setShowAddGoalModal: Dispatch<SetStateAction<boolean>>
+}
+
+function AddGoalModal({ setShowAddGoalModal }: addGoalModalProps) {
   return (
     <div className="modal-bg">
         <div className="add-goal-modal">
@@ -18,8 +23,9 @@ function AddGoalModal() {
                     <p>Create a new budget goal using natural language</p>
                 </div>
 
-                    <button>
+                    <button onClick={() => setShowAddGoalModal(false)}>
                  <Image 
+                 
                 src={closeModalIcon}
                 alt="close icon"
                 />                        

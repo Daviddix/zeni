@@ -6,6 +6,7 @@ const userRoutes = require('./routes/users.routes.js');
 const transactionRoutes = require('./routes/transactions.routes.js');
 const sessionRoutes = require('./routes/auth.routes.js');
 const cookieParser = require('cookie-parser');
+const goalsRoutes = require('./routes/goals.routes.js');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use('/api/users', userRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use("/api/session-logic", sessionRoutes);
+app.use("/api/goals", goalsRoutes);
 
 
 // Start server
