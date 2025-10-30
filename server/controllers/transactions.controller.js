@@ -1,36 +1,57 @@
+const { db } = require("../config/firebase");
+
 const AI_AGENT_URL = process.env.AI_AGENT_URL || "http://localhost:8000";
 const AGENT_APP_NAME = 'zeni_agent'; // Use the directory name or app name ADK uses
 
-async function getAllTransactionsMadeByUser(req, res) {
-  try {
-    const { uid } = req.user; // from verifySession middleware
+async function getUsersTransactions(req, res) {
+    // Assuming the user's ID is retrieved from the authenticated request
+    const { uid } = req.user; 
 
-    //get the particular user based on uid then get all the transactions made by that user. The transactions are stored as an array in a field called 'transactions' inside each user document.
-    const userRef = db.collection("users").doc(uid);
-    const userDoc = await userRef.get();
+    try {
+        console.log(`Fetching expenses for user ID: ${uid}`);
 
-    if (!userDoc.exists) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
+        // 2. Query the 'expenses' collection
+        // This query filters documents where the 'userId' field matches the authenticated user's uid.
+        const snapshot = await db.collection('expenses')
+            .where('userId', '==', uid) // <-- CRITICAL: Filter by the user's ID
+            .orderBy('timestamp', 'desc') // Optionally sort by time, newest first
+            .get();
+
+        if (snapshot.empty) {
+            return res.status(200).json({ 
+                success: true, 
+                message: "No expenses found for this user.", 
+                expenses: [] 
+            });
+        }
+
+        // 3. Map the documents to a list of JavaScript objects
+        const expenses = snapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+                id: doc.id,
+                amount: data.amount,
+                name: data.name,
+                category: data.category,
+                // Convert Firestore Timestamp/Date object back to ISO string or number
+                date: data.date ? data.date.toDate().getTime() : null, 
+            };
+        });
+
+        // 4. Return the list of expenses
+        return res.status(200).json({
+            success: true,
+            expenses: expenses
+        });
+
+    } catch (err) {
+        console.error('Error fetching user expenses:', err);
+        return res.status(500).json({
+            success: false,
+            message: "Failed to retrieve expenses.",
+            error: err.message
+        });
     }
-
-    const userData = userDoc.data();
-    const transactions = userData.transactions || [];
-
-    res.status(200).json({
-      success: true,
-      transactions,
-    });
-  } catch (err) {
-    console.error("Error getting user info:", err);
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch user info",
-      error: err.message,
-    });
-  }
 }
 
 async function createAISessionForUser(req, res){
@@ -145,4 +166,4 @@ async function createTransactionFromText(req, res){
   }
 }
 
-module.exports = {getAllTransactionsMadeByUser, createTransactionFromText, createAISessionForUser}
+module.exports = {getUsersTransactions, createTransactionFromText, createAISessionForUser}

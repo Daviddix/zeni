@@ -1,7 +1,7 @@
 import Image from "next/image";
 import "./AIMessage.css"
 import zeniAIIcon from "@/public/images/zeni-ai-icon.svg"
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 type aiMessageProps = {
     messageToPerformAction : string;

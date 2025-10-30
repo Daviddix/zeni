@@ -1,6 +1,64 @@
+import { useEffect, useState } from "react";
 import "./TransactionsTable.css"
 
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
+
+type transactionType = {
+    id : string;
+    name : string;
+    amount : number;
+    date : string;
+    category : string;
+}
+
+
 function TransactionsTable() {
+  const [transactions, setTransactions] = useState<transactionType[]>([]);
+  const [fetchStatus, setFetchStatus] = useState<"loading" | "error" | "success">("loading");
+
+    async function getUserTransactions(){
+    try{
+        const response = await fetch(`${BASE_URL}/api/transactions/all`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials : "include",
+        });
+        const responseInJson = await response.json();
+
+        if (!response.ok) {
+            throw new Error(responseInJson.message || "Unknown error occurred");
+        }
+        setTransactions(responseInJson.expenses);
+        setFetchStatus("success");
+    }
+    catch(err){
+        console.log("Error fetching user transactions from backend:", err);
+        setFetchStatus("error");
+    }
+  }
+
+  const mappedTransactions = transactions.map((transaction)=>{
+    return (
+        <tr key={transaction.id}>
+          <td>
+            <div className="transaction-cell">
+              <div className="avatar">MB</div>
+              <span className="name">{transaction.name}</span>
+            </div>
+          </td>
+          <td>${transaction.amount.toFixed(2)}</td>
+          <td>{new Date(transaction.date).toLocaleDateString()}</td>
+          <td><span className="badge">{transaction.category}</span></td>
+        </tr>
+    );
+  });
+
+  useEffect(()=>{
+    getUserTransactions();
+  }, [])
+
   return (
     <div className="table-card">
     <div className="table-card-header gray-header">
@@ -17,39 +75,21 @@ function TransactionsTable() {
         </tr>
       </thead>
       <tbody>
+      {fetchStatus === "loading" ? (
         <tr>
-          <td>
-            <div className="transaction-cell">
-              <div className="avatar">MB</div>
-              <span className="name">Mr Biggs Restaurant</span>
-            </div>
+          <td colSpan={4} style={{ textAlign: "center" }}>
+            Loading transactions...
           </td>
-          <td>$231.45</td>
-          <td>Monday, October 12</td>
-          <td><span className="badge">Food</span></td>
         </tr>
+      ) : fetchStatus === "error" ? (
         <tr>
-          <td>
-            <div className="transaction-cell">
-              <div className="avatar">MB</div>
-              <span className="name">Mr Biggs Restaurant</span>
-            </div>
+          <td colSpan={4} style={{ textAlign: "center" }}>
+            Error loading transactions.
           </td>
-          <td>$231.45</td>
-          <td>Monday, October 12</td>
-          <td><span className="badge">Food</span></td>
         </tr>
-        <tr>
-          <td>
-            <div className="transaction-cell">
-              <div className="avatar">MB</div>
-              <span className="name">Mr Biggs Restaurant</span>
-            </div>
-          </td>
-          <td>$231.45</td>
-          <td>Monday, October 12</td>
-          <td><span className="badge">Food</span></td>
-        </tr>
+      ) : (
+        mappedTransactions
+      )}
       </tbody>
     </table>
         </div>

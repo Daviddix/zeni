@@ -1,12 +1,17 @@
+"use client"
 import Image from "next/image"
 import "./entries.css"
 import zeniAiIcon from "@/public/images/zeni-ai-icon.svg"
 import TransactionsTable from "@/components/dashboard/TransactionsTable/TransactionsTable"
 import downIcon from "@/public/images/down-icon.svg"
 import sendIcon from "@/public/images/send-icon.svg"
+import TodaysDate from "@/components/dashboard/TodaysDate/TodaysDate"
+import { useEffect } from "react"
 
 
-function page() {
+
+function Entries() {
+
   return (
     <main className="entries-main">
 
@@ -18,7 +23,7 @@ function page() {
       </button>
 
        <header className="entries-main-header">
-        <p>Monday, 25th October, 2023</p>
+       <TodaysDate />
         <h1>Your Entries</h1>
       </header>
 
@@ -74,4 +79,4 @@ function page() {
   )
 }
 
-export default page
+export default Entries
