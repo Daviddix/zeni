@@ -33,6 +33,7 @@ function Goals() {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mappedGoals = allGoals.map((goal:any)=>(
     <SingleGoal 
     key={goal.id}
