@@ -1,5 +1,5 @@
 const express = require('express');
-const { signUserUp, finishOnboardingProcess, updateUserCurrency, getUserInfo } = require('../controllers/users.controller');
+const { finishOnboardingProcess, updateUserCurrency, getUserInfo } = require('../controllers/users.controller');
 const verifySession = require('../middleware/authMiddleware');
 const userRouter = express.Router();
 // const { verifyToken, requireAdmin } = require('../middleware/authMiddleware');

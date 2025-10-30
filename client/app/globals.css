@@ -92,3 +92,11 @@ button[disabled] {
   background: var(--black-200, #E0E0E0) !important;
   cursor: not-allowed;
 }
+
+.error-text{
+  color: rgb(255, 50, 50);
+}
+
+.success-text{
+  color: rgb(39, 175, 39);
+}
