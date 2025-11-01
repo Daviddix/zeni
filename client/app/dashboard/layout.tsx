@@ -5,8 +5,10 @@ import logo from "@/public/images/logo.svg"
 import "./dashboard.global.css"
 import Sidebar from "@/components/dashboard/Sidebar/Sidebar";
 import AddNewEntryModal from "@/components/dashboard/AddNewEntryModal/AddNewEntryModal"
-import { useAtomValue } from "jotai";
-import { showAddTransactionModalAtom } from "@/states/dashboard.states";
+import { useAtomValue, useSetAtom } from "jotai";
+import { showAddTransactionModalAtom, userInfoAtom } from "@/states/dashboard.states";
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
+import { useEffect } from "react"
 
 
 
@@ -17,6 +19,31 @@ export default function DashboardLayout({
 }>) {
 
   const showAddNewEntryModal = useAtomValue(showAddTransactionModalAtom)
+  const setUserInfo = useSetAtom(userInfoAtom)
+
+
+    async function getUserInfo(){
+    try{
+      const rawFetch = await fetch(`${BASE_URL}/api/users/info`, {
+        credentials : "include"
+      })
+
+      const responseInJson : userDetailsType = await rawFetch.json()
+
+      if(!rawFetch.ok){
+        throw new Error("Couldn't get user information")
+      }
+
+      setUserInfo(responseInJson)
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
+  useEffect(()=>{
+    getUserInfo()
+  }, [])
 
 
   return (

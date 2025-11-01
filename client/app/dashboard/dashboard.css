@@ -139,7 +139,7 @@
     padding: 1rem 2rem;
     height: 14rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     flex-direction: column;
     gap: 1rem;
 }
@@ -154,6 +154,26 @@
     height: 1.3rem;
     margin: 0 1rem 0 0;
     background-color: var(--primary-base);
+}
+
+.single-chart-item:nth-of-type(2) .square{
+    background-color: #00C49F;
+}
+
+.single-chart-item:nth-of-type(3) .square{
+    background-color: #FFBB28;
+}
+
+.single-chart-item:nth-of-type(4) .square{
+    background-color: #FF8042;
+}
+
+.single-chart-item:nth-of-type(5) .square{
+    background-color: #3498db;
+}
+
+.single-chart-item:nth-of-type(6) .square{
+    background-color: #e74c3c;
 }
 
 .single-chart-item p{

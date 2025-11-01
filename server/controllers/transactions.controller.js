@@ -1,4 +1,5 @@
 const { db } = require("../config/firebase");
+const { getDateRange } = require("../libs/date");
 
 const AI_AGENT_URL = process.env.AI_AGENT_URL || "http://localhost:8000";
 const AGENT_APP_NAME = 'zeni_agent'; // Use the directory name or app name ADK uses
@@ -166,4 +167,56 @@ async function createTransactionFromText(req, res){
   }
 }
 
-module.exports = {getUsersTransactions, createTransactionFromText, createAISessionForUser}
+async function getTotalExpensesByPeriod(req, res) {
+    const { uid } = req.user; 
+    const { period } = req.params; // Expects 'today', 'week', or 'month'
+
+    try {
+        const { start, end } = getDateRange(period);
+
+        console.log(`Calculating total ${period} expenses for user ID: ${uid}`);
+
+        // 1. Query Firestore for the date range
+        const snapshot = await db.collection('expenses')
+            .where('userId', '==', uid) // Filter 1: By the user's ID
+            .where('date', '>=', start)  // Filter 2: Start of the range
+            .where('date', '<=', end)    // Filter 3: End of the range
+            .orderBy('date', 'desc')     
+            .get();
+
+        // 2. Aggregate the results
+        let totalExpense = 0;
+        
+        if (!snapshot.empty) {
+            // Iterate over all found documents and sum the 'amount' field
+            snapshot.docs.forEach(doc => {
+                const data = doc.data();
+                // Ensure 'amount' is treated as a number for aggregation
+                if (typeof data.amount === 'number') {
+                    totalExpense += data.amount;
+                } else if (typeof data.amount === 'string') {
+                    // Attempt to parse if stored as a string (not recommended, but safe)
+                    totalExpense += parseFloat(data.amount) || 0;
+                }
+            });
+        }
+
+        // 3. Return the total sum
+        return res.status(200).json({
+            success: true,
+            period: period,
+            // Format the total to two decimal places
+            total: parseFloat(totalExpense.toFixed(2)) 
+        });
+
+    } catch (err) {
+        console.error(`Error calculating total ${period} expenses:`, err);
+        return res.status(500).json({
+            success: false,
+            message: `Failed to calculate total ${period} expenses.`,
+            error: err.message
+        });
+    }
+}
+
+module.exports = {getUsersTransactions, createTransactionFromText, createAISessionForUser, getTotalExpensesByPeriod}

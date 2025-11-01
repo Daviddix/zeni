@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "./TransactionsTable.css"
+import { useSetAtom } from "jotai";
+import { allExpensesAtom } from "@/states/dashboard.states";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
@@ -15,6 +17,7 @@ type transactionType = {
 function TransactionsTable() {
   const [transactions, setTransactions] = useState<transactionType[]>([]);
   const [fetchStatus, setFetchStatus] = useState<"loading" | "error" | "success">("loading");
+  const setAllExpenses = useSetAtom(allExpensesAtom);
 
     async function getUserTransactions(){
     try{
@@ -31,6 +34,7 @@ function TransactionsTable() {
             throw new Error(responseInJson.message || "Unknown error occurred");
         }
         setTransactions(responseInJson.expenses);
+        setAllExpenses(responseInJson.expenses);
         setFetchStatus("success");
     }
     catch(err){

@@ -3,36 +3,24 @@ import SingleGoal from "@/components/dashboard/SingleGoal/SingleGoal"
 import "./dashboard.css"
 import TransactionsTable from "@/components/dashboard/TransactionsTable/TransactionsTable"
 import TodaysDate from "@/components/dashboard/TodaysDate/TodaysDate"
-import { useEffect } from "react"
-import { useSetAtom } from "jotai"
-import { userInfoAtom } from "@/states/dashboard.states"
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
+import DailySpending from "@/components/dashboard/DailySpending/DailySpending"
+import WeeklySpending from "@/components/dashboard/WeeklySpending/WeeklySpending"
+import MonthlySpending from "@/components/dashboard/MonthlySpending/MonthlySpending"
+import PieChartWithCustomizedLabel from "@/components/dashboard/CategoryPieChart/CategoryPieChart"
+import { allExpensesAtom } from "@/states/dashboard.states"
+import { useAtomValue } from "jotai"
+import { normalizeData } from "@/libs/normalize"
+// const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
 function DashboardPage() {
-  const setUserInfo = useSetAtom(userInfoAtom)
+  const allExpenses = useAtomValue(allExpensesAtom);
 
-  async function getUserInfo(){
-    try{
-      const rawFetch = await fetch(`${BASE_URL}/api/users/info`, {
-        credentials : "include"
-      })
-
-      const responseInJson : userDetailsType = await rawFetch.json()
-
-      if(!rawFetch.ok){
-        throw new Error("Couldn't get user information")
-      }
-
-      setUserInfo(responseInJson)
-    }
-    catch(err){
-      console.log(err)
-    }
-  }
-
-  useEffect(()=>{
-    getUserInfo()
-  }, [])
+  const mappedExpensesCategories = normalizeData(allExpenses).map((expense)=>{
+    return <div key={expense.category} className="single-chart-item">
+              <span className="square"></span>
+              <p>{expense.category}</p>
+            </div>
+  })
   return (
     <main className="overview-main">
       <div className="left-side">
@@ -43,20 +31,11 @@ function DashboardPage() {
         </header>
 
         <div className="spending-card-container">
-          <div className="single-spending-card">
-            <h2>$32</h2>
-            <p>SPENT TODAY</p>
-          </div>
+          <DailySpending />
 
-           <div className="single-spending-card">
-            <h2>$127</h2>
-            <p>SPENT THIS WEEK</p>
-          </div>
+          <WeeklySpending />
 
-           <div className="single-spending-card">
-            <h2>$310</h2>
-            <p>SPENT THIS MONTH</p>
-          </div>
+           <MonthlySpending />
         </div>
 
         <TransactionsTable />
@@ -77,28 +56,10 @@ function DashboardPage() {
             <h2 className="caps-gray-text">SPENDING BY CATEGORY</h2>
           </header>
           
-          <div className="chart-container"></div>
+            <PieChartWithCustomizedLabel allExpenses={allExpenses} />
 
           <div className="chart-items">
-            <div className="single-chart-item">
-              <span className="square"></span>
-              <p>Food</p>
-            </div>
-
-            <div className="single-chart-item">
-              <span className="square"></span>
-              <p>Electronics</p>
-            </div>
-
-            <div className="single-chart-item">
-              <span className="square"></span>
-              <p>Transportation</p>
-            </div>
-
-            <div className="single-chart-item">
-              <span className="square"></span>
-              <p>Misc.</p>
-            </div>
+            {mappedExpensesCategories}
           </div>
         </div>
       </div>

@@ -11,3 +11,11 @@ type userDetailsType = {
   }
 
 }
+
+type expenseType = {
+  id : string;
+  amount : number;
+  name : string;
+  category : string;
+  date : string;
+}
