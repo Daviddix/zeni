@@ -54,7 +54,7 @@ def save_expense_to_firestore(amount: float, name: str, date: str, category: str
         }
 
 
-def add_new_goal_to_firestore(userId: str, goal_name: str, goal_amount : float) -> dict:
+def add_new_goal_to_firestore(userId: str, goal_amount : float, full_goal_description) -> dict:
     """
     Saves a new financial goal to the 'goals' collection in Firestore.
     
@@ -65,7 +65,7 @@ def add_new_goal_to_firestore(userId: str, goal_name: str, goal_amount : float) 
     try:
         goal_doc = {
             "userId": userId,
-            "name" : goal_name,
+            "name" : full_goal_description,
             "goal_amount": goal_amount,
             "progress_completed" : 0,
             "progress_remaining" : 100,

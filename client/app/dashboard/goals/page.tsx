@@ -9,12 +9,15 @@ import Image from "next/image"
 import DeleteGoalModal from "@/components/dashboard/DeleteGoalModal/DeleteGoalModal"
 import AddGoalModal from "@/components/dashboard/AddGoalModal/AddGoalModal"
 import { useEffect, useState } from "react"
+import { useSetAtom } from "jotai"
+import { allBudgetGoalsAtom } from "@/states/dashboard.states"
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
 function Goals() {
-  const [allGoals, setAllGoals] = useState([]);
+  const [allGoals, setAllGoals] = useState<goalsType[]>([]);
   const [fetchingStatus, setFetchingStatus] = useState<"loading" | "error" | "success">("loading");
   const [showAddGoalModal, setShowAddGoalModal] = useState(false);
+  const setGoalsAtom = useSetAtom(allBudgetGoalsAtom)
 
   async function getUserGoals(){
     setFetchingStatus("loading");
@@ -26,6 +29,7 @@ function Goals() {
       if (!response.ok) throw new Error("Failed to fetch goals");
       const data = await response.json();
       setAllGoals(data.goals);
+      setGoalsAtom(data.goals);
       setFetchingStatus("success");
     }catch(err){
       setFetchingStatus("error");
@@ -33,10 +37,16 @@ function Goals() {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const mappedGoals = allGoals.map((goal:any)=>(
-    <SingleGoal 
-    key={goal.id}
+  const mappedGoals = allGoals.map((goal) => (
+    <SingleGoal
+      key={goal.id}
+      name={goal.name}
+      total_remaining={goal.total_remaining}
+      progress_remaining={goal.progress_remaining}
+      total_spent={goal.total_spent}
+      progress_completed={goal.progress_completed}
+      goal_amount={goal.goal_amount}
+
     />
   ));
 

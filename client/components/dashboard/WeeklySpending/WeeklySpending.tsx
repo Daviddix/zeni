@@ -29,7 +29,7 @@ function WeeklySpending() {
   return (
     <div className="single-spending-card">
       {fetchStatus === 'loading' && <h2>Loading...</h2>}
-      {fetchStatus === 'error' && <h2>Error loading weekly spending</h2>}
+      {fetchStatus === 'error' && <h2>Error</h2>}
       {fetchStatus === 'success' && <h2>${formatNumber(data)}</h2>}
       <p>SPENT THIS WEEK</p>
     </div>

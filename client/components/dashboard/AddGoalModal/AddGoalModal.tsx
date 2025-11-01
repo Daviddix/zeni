@@ -3,6 +3,9 @@ import "./AddGoalModal.css"
 import addIcon from "@/public/images/add-new-goal-icon.svg"
 import closeModalIcon from "@/public/images/close-icon.svg"
 import { Dispatch, SetStateAction, useState } from "react"
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
+
+type sendingStatusType = "sending" | "completed" | "error";
 
 type addGoalModalProps = {
   setShowAddGoalModal: Dispatch<SetStateAction<boolean>>
@@ -10,6 +13,79 @@ type addGoalModalProps = {
 
 function AddGoalModal({ setShowAddGoalModal }: addGoalModalProps) {
   const [goalTyped, setGoalTyped] = useState("")
+  const [sendingStatus, setSendingStatus] = useState<sendingStatusType>("sending");
+      const [errorMessage, setErrorMessage] = useState<string | null>(null);
+      const [responseMessage, setResponseMessage] = useState<string>("");
+
+   async function createAISession(){
+         try{
+            const response = await fetch(`${BASE_URL}/api/goals/ai/session`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials : "include",
+                body: JSON.stringify({})
+            });
+
+            const responseInJson = await response.json();
+
+            if (!response.ok) {
+                setErrorMessage(responseInJson.message || "Unknown error occurred");
+                setSendingStatus("error");
+                throw new Error("AI agent error",{cause : responseInJson});
+            }
+
+            console.log("AI session response:", responseInJson);
+            return responseInJson.sessionId;
+        }
+        catch(err){
+            setSendingStatus("error");
+            if(err instanceof Error){
+                setErrorMessage(err.message);
+            }else{
+                setErrorMessage("Failed to communicate with AI agent.");
+            }
+            console.log("Error sending message to backend:", err);
+        }
+    }
+
+    async function sendMessageToBackend(){
+        setSendingStatus("sending");
+        try{
+            const sessionId = await createAISession();
+            const response = await fetch(`${BASE_URL}/api/goals/ai/add`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials : "include",
+                body: JSON.stringify({ sessionId, userText: goalTyped })
+            });
+
+            const responseInJson = await response.json();
+
+            if (!response.ok) {
+                setErrorMessage(responseInJson.message || "Unknown error occurred");
+                setSendingStatus("error");
+                throw new Error("AI agent error",{cause : responseInJson});
+            }
+
+            console.log("AI session response:", responseInJson);
+            const textToDisplay = responseInJson.agentResponse[1].content.parts[0].functionResponse.response.message
+            setSendingStatus("completed");
+            setResponseMessage(textToDisplay)
+        }
+        catch(err){
+            setSendingStatus("error");
+            if(err instanceof Error){
+                setErrorMessage(err.message);
+            }else{
+                setErrorMessage("Failed to communicate with AI agent.");
+            }
+            console.log("Error sending message to backend:", err);
+        }
+    }
 
   return (
     <div className="modal-bg">
@@ -40,6 +116,10 @@ function AddGoalModal({ setShowAddGoalModal }: addGoalModalProps) {
             onChange={(e) => setGoalTyped(e.target.value)}></textarea>
 
             <button 
+            onClick={(e)=>{
+                e.preventDefault();
+                sendMessageToBackend();
+            }}
             disabled={goalTyped.trim().length === 0}
             className="primary-button">Add Goal</button>
            </form>

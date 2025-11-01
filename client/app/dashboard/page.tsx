@@ -7,13 +7,28 @@ import DailySpending from "@/components/dashboard/DailySpending/DailySpending"
 import WeeklySpending from "@/components/dashboard/WeeklySpending/WeeklySpending"
 import MonthlySpending from "@/components/dashboard/MonthlySpending/MonthlySpending"
 import PieChartWithCustomizedLabel from "@/components/dashboard/CategoryPieChart/CategoryPieChart"
-import { allExpensesAtom } from "@/states/dashboard.states"
+import { allBudgetGoalsAtom, allExpensesAtom } from "@/states/dashboard.states"
 import { useAtomValue } from "jotai"
 import { normalizeData } from "@/libs/normalize"
 // const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
 function DashboardPage() {
   const allExpenses = useAtomValue(allExpensesAtom);
+
+  const allGoals = useAtomValue(allBudgetGoalsAtom)
+
+    const mappedGoals = allGoals.map((goal) => (
+    <SingleGoal
+      key={goal.id}
+      name={goal.name}
+      total_remaining={goal.total_remaining}
+      progress_remaining={goal.progress_remaining}
+      total_spent={goal.total_spent}
+      progress_completed={goal.progress_completed}
+      goal_amount={goal.goal_amount}
+
+    />
+  ));
 
   const mappedExpensesCategories = normalizeData(allExpenses).map((expense)=>{
     return <div key={expense.category} className="single-chart-item">
@@ -44,8 +59,7 @@ function DashboardPage() {
           <h1>Budget Goals</h1>
 
           <div className="budget-goals-container">
-             <SingleGoal />
-             <SingleGoal />
+            {mappedGoals}
           </div>
         </div>
       </div>

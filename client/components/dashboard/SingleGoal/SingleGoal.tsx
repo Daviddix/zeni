@@ -2,11 +2,20 @@ import Image from "next/image"
 import "./SingleGoal.css"
 import deleteIcon from "@/public/images/goal-delete-icon.svg"
 
-function SingleGoal() {
+type singleGoalProps = {
+    name : string,
+    total_remaining : number,
+    progress_remaining : number,
+    total_spent : number,
+    progress_completed : number,
+    goal_amount : number,
+}
+
+function SingleGoal({ name, total_remaining, progress_remaining, total_spent, progress_completed, goal_amount }: singleGoalProps) {
   return (
     <div className="single-budget-goal">
               <header>
-                <p>Spend less than $100 this week</p>
+                <p>{name}</p>
 
                 <button>
                   <Image 
@@ -17,20 +26,24 @@ function SingleGoal() {
               </header>
 
               <div className="budget-details">
-                <h2>80%</h2>
+                <h2>{Math.round((progress_completed / goal_amount) * 100)}%</h2>
 
-                <div className="progress-bar">
+                <div className="progress-bar" style={
+                  {
+                    gridTemplateColumns : `1fr ${progress_remaining}%`
+                  }
+                }>
                   <div className="done"></div>
                   <div className="remaining"></div>
                 </div>
 
                 <div className="price-details">
                   <div className="spent">
-                    <p>$80 <small>spent</small></p>
+                    <p>${total_spent} <small>spent</small></p>
                   </div>
 
                   <div className="remaining">
-                    <p>$20 <small>remaining</small></p>
+                    <p>${total_remaining} <small>remaining</small></p>
                   </div>
                 </div>
               </div>

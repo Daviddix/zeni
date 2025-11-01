@@ -42,7 +42,6 @@
 .budget-details .progress-bar {
     margin: 1rem 0;
     display: grid;
-    grid-template-columns: 1fr 20%;
     gap: .4rem;
 }
 
