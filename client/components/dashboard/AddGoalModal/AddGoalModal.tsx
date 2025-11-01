@@ -2,13 +2,15 @@ import Image from "next/image"
 import "./AddGoalModal.css"
 import addIcon from "@/public/images/add-new-goal-icon.svg"
 import closeModalIcon from "@/public/images/close-icon.svg"
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction, useState } from "react"
 
 type addGoalModalProps = {
   setShowAddGoalModal: Dispatch<SetStateAction<boolean>>
 }
 
 function AddGoalModal({ setShowAddGoalModal }: addGoalModalProps) {
+  const [goalTyped, setGoalTyped] = useState("")
+
   return (
     <div className="modal-bg">
         <div className="add-goal-modal">
@@ -33,10 +35,12 @@ function AddGoalModal({ setShowAddGoalModal }: addGoalModalProps) {
             </header>
 
            <form className="add-goal-form">
-            <textarea placeholder="I want to spend less than..."></textarea>
+            <textarea placeholder="I want to spend less than..." 
+            value={goalTyped} 
+            onChange={(e) => setGoalTyped(e.target.value)}></textarea>
 
             <button 
-            disabled
+            disabled={goalTyped.trim().length === 0}
             className="primary-button">Add Goal</button>
            </form>
         </div>
