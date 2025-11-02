@@ -14,7 +14,7 @@ type transactionType = {
 }
 
 
-function TransactionsTable() {
+function TransactionsTable({tableTitle} : {tableTitle?: string}) {
   const [transactions, setTransactions] = useState<transactionType[]>([]);
   const [fetchStatus, setFetchStatus] = useState<"loading" | "error" | "success">("loading");
   const setAllExpenses = useSetAtom(allExpensesAtom);
@@ -66,7 +66,7 @@ function TransactionsTable() {
   return (
     <div className="table-card">
     <div className="table-card-header gray-header">
-      <p className="caps-gray-text">Last 3 Entries</p>
+      <p className="caps-gray-text">{tableTitle}</p>
       </div>
 
     <table className="transaction-table">

@@ -15,20 +15,6 @@ import { normalizeData } from "@/libs/normalize"
 function DashboardPage() {
   const allExpenses = useAtomValue(allExpensesAtom);
 
-  const allGoals = useAtomValue(allBudgetGoalsAtom)
-
-    const mappedGoals = allGoals.map((goal) => (
-    <SingleGoal
-      key={goal.id}
-      name={goal.name}
-      total_remaining={goal.total_remaining}
-      progress_remaining={goal.progress_remaining}
-      total_spent={goal.total_spent}
-      progress_completed={goal.progress_completed}
-      goal_amount={goal.goal_amount}
-
-    />
-  ));
 
   const mappedExpensesCategories = normalizeData(allExpenses).map((expense)=>{
     return <div key={expense.category} className="single-chart-item">
@@ -53,15 +39,8 @@ function DashboardPage() {
            <MonthlySpending />
         </div>
 
-        <TransactionsTable />
+        <TransactionsTable tableTitle="LAST 3 ENTRIES" />
 
-        <div className="budget-goals">
-          <h1>Budget Goals</h1>
-
-          <div className="budget-goals-container">
-            {mappedGoals}
-          </div>
-        </div>
       </div>
 
       <div className="right-side">

@@ -2,13 +2,16 @@
     background: #fff;
     border-radius: 2rem;
     width: 100%;
-    overflow: hidden;
+    overflow-y: auto;
     border: var(--border-style);
     margin: 0 0 2rem 0;
+    max-height: 40rem;
 }
 
 .table-card .table-card-header {
     padding: 2rem;
+    position: sticky;
+    top: 0;
 }
 
 .transaction-table {

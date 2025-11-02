@@ -31,7 +31,7 @@ function Entries() {
     
       <div className="entries-and-ai-container">
         <div className="entries-container">
-            <TransactionsTable />
+            <TransactionsTable tableTitle="Your Transactions" />
         </div>
 
         <div className="entries-ai-analysis-bg">

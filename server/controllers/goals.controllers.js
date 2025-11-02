@@ -135,9 +135,71 @@ async function addGoalToFirestore(req, res){
   }
 }
 
+async function getAnalysisForGoal(req, res){
+  try{
+    const {uid} = req.user 
+    const {userText, sessionId} = req.body 
+
+    if(!userText){
+      return res.status(400).json({
+        success: false,
+        message: "userText is required"
+      })
+    }
+
+    const fullText = `analyze the goal with the id of ${userText} and return an analysis for it from user with the userId of ${uid}. This should be passed to the single_goal_analysis_pipeline`
+
+    const payload = {
+        app_name: AGENT_APP_NAME,
+        user_id: uid,
+        session_id: sessionId,
+        new_message: {
+            role: "user",
+            parts: [{ text: fullText }]
+        }
+    };
+
+    console.log("Sending payload to AI Agent:", payload);
+
+    const rawFetch = await fetch(`${AI_AGENT_URL}/run`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const agentResponse = await rawFetch.json();
+
+    if(!rawFetch.ok){
+      console.log("AI Agent Request Failed:", agentResponse);
+      return res.status(500).json({
+        success: false,
+        message: "AI agent request failed"
+      })
+    }
+
+    console.log("AI Agent Response:", agentResponse);
+
+    return res.status(200).json({
+      agentResponse
+    });
+  }
+  catch(err){
+    console.log("Error in analyze user goal:", err);
+    res.status(500).json({
+      success: false,
+      message: "Failed to analyze user goal",
+      error: err.message
+    })
+
+  }
+}
+
 
 module.exports = {
     getAllGoalsByUser,
     addGoalToFirestore,
-    createAISessionForUser
+    createAISessionForUser,
+    getAnalysisForGoal
 };

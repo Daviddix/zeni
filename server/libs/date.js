@@ -1,3 +1,8 @@
+/**
+ * Returns the start and end Date objects for a given period.
+ * @param {'today'|'week'|'month'} period - The period for which to get the date range.
+ * @returns {{start: Date, end: Date}} An object with 'start' and 'end' Date properties.
+ */
 // Helper function to get start/end datetimes for Firestore queries
 export function getDateRange(period) {
     const now = new Date();
@@ -23,7 +28,7 @@ export function getDateRange(period) {
             startDate.setHours(0, 0, 0, 0);
             break;
         default:
-            throw new Error("Invalid period specified.");
+            throw new Error(`Invalid period specified: ${period}`);
     }
     
     // The end date is always the moment the query runs (Date.now())

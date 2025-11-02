@@ -172,16 +172,18 @@ async function getTotalExpensesByPeriod(req, res) {
     const { period } = req.params; // Expects 'today', 'week', or 'month'
 
     try {
-        const { start, end } = getDateRange(period);
-
-        console.log(`Calculating total ${period} expenses for user ID: ${uid}`);
+        // getDateRange returns JavaScript Date objects in UTC, suitable for Firestore range queries.
+                const { start, end } = getDateRange(period);
+        // For debugging; mask user ID in production logs
+        console.log(`Calculating total ${period} expenses for user ID: ${uid ? uid.substring(0, 4) + '****' : 'unknown'}`);
+                console.log(`Calculating total ${period} expenses for user ID: ${uid}`);
 
         // 1. Query Firestore for the date range
         const snapshot = await db.collection('expenses')
             .where('userId', '==', uid) // Filter 1: By the user's ID
+            .orderBy('date', 'desc')    // Order by 'date' first for range filters
             .where('date', '>=', start)  // Filter 2: Start of the range
             .where('date', '<=', end)    // Filter 3: End of the range
-            .orderBy('date', 'desc')     
             .get();
 
         // 2. Aggregate the results
@@ -205,7 +207,7 @@ async function getTotalExpensesByPeriod(req, res) {
         return res.status(200).json({
             success: true,
             period: period,
-            // Format the total to two decimal places
+            // Format the total to two decimal places and ensure it's a number (not string)
             total: parseFloat(totalExpense.toFixed(2)) 
         });
 

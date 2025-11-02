@@ -1,6 +1,7 @@
 import Image from "next/image"
 import "./SingleGoal.css"
 import deleteIcon from "@/public/images/goal-delete-icon.svg"
+import { Dispatch, SetStateAction } from "react"
 
 type singleGoalProps = {
     name : string,
@@ -9,11 +10,24 @@ type singleGoalProps = {
     total_spent : number,
     progress_completed : number,
     goal_amount : number,
+    setSelectedGoal? : Dispatch<SetStateAction<string | null>>,
+    id : string,
+    sendMessageToBackend : (id:string) => Promise<void>,
+    isDisabled? : boolean,
+    isSelected? : boolean
 }
 
-function SingleGoal({ name, total_remaining, progress_remaining, total_spent, progress_completed, goal_amount }: singleGoalProps) {
+function SingleGoal({ name, total_remaining, progress_remaining, total_spent, progress_completed, goal_amount, setSelectedGoal, id, sendMessageToBackend, isDisabled = false, isSelected = false }: singleGoalProps) {
   return (
-    <div className="single-budget-goal">
+    <div 
+    onClick={()=>{
+      if(setSelectedGoal && !isDisabled){
+        setSelectedGoal(id)
+        sendMessageToBackend(id)
+      }
+    }}
+    className={`single-budget-goal ${isDisabled ? 'disabled' : ''} ${isSelected ? 'selected' : ''}`}
+    style={{ opacity: isDisabled ? 0.5 : 1, cursor: isDisabled ? 'not-allowed' : 'pointer' }}>
               <header>
                 <p>{name}</p>
 

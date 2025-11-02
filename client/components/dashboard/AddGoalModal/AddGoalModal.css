@@ -95,3 +95,21 @@
 .add-goal-form .primary-button {
     max-width: 95%;
 }
+
+.add-goal-form .error-message {
+    color: #EF4444;
+    font-family: "Instrument Sans";
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    margin: 0 auto 1rem auto;
+    max-width: 95%;
+    background: #FEE2E2;
+    border-radius: 0.5rem;
+    border: 1px solid #FCA5A5;
+}
+
+.add-goal-form textarea:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

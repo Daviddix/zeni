@@ -5,15 +5,17 @@ import closeModalIcon from "@/public/images/close-icon.svg"
 import { Dispatch, SetStateAction, useState } from "react"
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
-type sendingStatusType = "sending" | "completed" | "error";
+type sendingStatusType = "sending" | "completed" | "error" | "idle";
 
 type addGoalModalProps = {
-  setShowAddGoalModal: Dispatch<SetStateAction<boolean>>
+  setShowAddGoalModal: Dispatch<SetStateAction<boolean>>,
+  onSuccess?: () => void,
+  onShowSuccessMessage?: (message: string) => void
 }
 
-function AddGoalModal({ setShowAddGoalModal }: addGoalModalProps) {
+function AddGoalModal({ setShowAddGoalModal, onSuccess, onShowSuccessMessage }: addGoalModalProps) {
   const [goalTyped, setGoalTyped] = useState("")
-  const [sendingStatus, setSendingStatus] = useState<sendingStatusType>("sending");
+  const [sendingStatus, setSendingStatus] = useState<sendingStatusType>("idle");
       const [errorMessage, setErrorMessage] = useState<string | null>(null);
       const [responseMessage, setResponseMessage] = useState<string>("");
 
@@ -75,6 +77,19 @@ function AddGoalModal({ setShowAddGoalModal }: addGoalModalProps) {
             const textToDisplay = responseInJson.agentResponse[1].content.parts[0].functionResponse.response.message
             setSendingStatus("completed");
             setResponseMessage(textToDisplay)
+            
+            // Show success message and close modal
+            if(onShowSuccessMessage){
+                onShowSuccessMessage(textToDisplay);
+            }
+            if(onSuccess){
+                onSuccess();
+            }
+            
+            // Close modal after a brief delay
+            setTimeout(() => {
+                setShowAddGoalModal(false);
+            }, 500);
         }
         catch(err){
             setSendingStatus("error");
@@ -113,15 +128,22 @@ function AddGoalModal({ setShowAddGoalModal }: addGoalModalProps) {
            <form className="add-goal-form">
             <textarea placeholder="I want to spend less than..." 
             value={goalTyped} 
-            onChange={(e) => setGoalTyped(e.target.value)}></textarea>
+            onChange={(e) => setGoalTyped(e.target.value)}
+            disabled={sendingStatus === "sending"}></textarea>
+
+            {sendingStatus === "error" && errorMessage && (
+                <p className="error-message">{errorMessage}</p>
+            )}
 
             <button 
             onClick={(e)=>{
                 e.preventDefault();
                 sendMessageToBackend();
             }}
-            disabled={goalTyped.trim().length === 0}
-            className="primary-button">Add Goal</button>
+            disabled={goalTyped.trim().length === 0 || sendingStatus === "sending"}
+            className="primary-button">
+                {sendingStatus === "sending" ? "Adding Goal..." : "Add Goal"}
+            </button>
            </form>
         </div>
     </div>

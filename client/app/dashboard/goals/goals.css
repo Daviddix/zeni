@@ -109,6 +109,28 @@
     height: 100%;
 }
 
+.ai-analysis-content .goal-ana{
+        font-family: "Instrument Sans";
+        font-size: 1.3rem;
+        font-style: normal;
+        line-height: 1.6;
+        letter-spacing: -0.012rem;
+        max-width: 90%;
+        margin:1rem auto 0 auto;
+        color: var(--primary-dark-700);
+}
+
+.ai-analysis-content .error-text{
+    margin: 4rem ;
+    font-size: 1.2rem;
+}
+
+.ai-analysis-content .loading-text{
+    margin: 4rem ;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
 .ai-analysis-body .empty-text {
     color: var(--primary-dark-600, #2F1860);
     text-align: center;
@@ -122,6 +144,36 @@
     margin: 6rem auto;
 }
 
+.goals-main .success-toast {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    background: #10B981;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+    animation: slideInRight 0.3s ease-out;
+}
+
+.success-toast p {
+    font-family: "Instrument Sans";
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
 
 @media screen and (min-width: 900px) {
     .goals-main {
@@ -133,7 +185,7 @@
 
     .goals-main .budget-goals-container {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 2rem;
     }
 
