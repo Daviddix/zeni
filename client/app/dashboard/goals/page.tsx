@@ -13,6 +13,7 @@ import { useSetAtom } from "jotai";
 import { allBudgetGoalsAtom } from "@/states/dashboard.states";
 import EmptyText from "@/components/dashboard/EmptyText/EmptyText";
 import TodaysDate from "@/components/dashboard/TodaysDate/TodaysDate";
+import Markdown from "react-markdown";
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 function Goals() {
@@ -194,7 +195,11 @@ function Goals() {
             <div className="ai-analysis-body">
               {responseMessage? (
                 <div className="ai-response-message">
-                  <p className="goal-ana">{responseMessage}</p>
+                  <p className="goal-ana">
+                    <Markdown>
+                    {responseMessage}
+                    </Markdown>
+                    </p>
                 </div>
               ):
               sendingStatus === "sending" ? (

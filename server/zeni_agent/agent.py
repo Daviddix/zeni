@@ -186,7 +186,7 @@ goal_agent = Agent(
 )
 
 
-# --- 4. EXPENSE ANALYSIS PIPELINE (Sequential Communication) ---
+# --- 4. EXPENSE ANALYSIS PIPELINE (OVERALL SPENDING) ---
 
 # Step 4.1: Agent 1 - Fetch the Raw Expense Data and Save to State
 data_fetcher_agent = LlmAgent(
@@ -237,17 +237,18 @@ analysis_pipeline = SequentialAgent(
 )
 
 
-# --- 5. SINGLE GOAL ANALYSIS PIPELINE (Sequential Communication) ---
+# --- 5. SINGLE GOAL ANALYSIS PIPELINE ---
 
 # Step 5.1: Agent 1 - Fetch the Single Goal and Save to State 
 goal_fetcher_agent = LlmAgent(
     name="GoalFetcher",
     model="gemini-2.5-flash",
-    # FIX 1: Tighter instruction to prevent conversational leakage ("Here is the goal...") 
+    # FIX: Ensure no conversational wrapper is saved to the state, only the raw tool result.
     instruction="""
         Your SOLE purpose is to call the 'get_single_goal_from_firestore' tool with the extracted 
-        **goalId** and **userId** from the user's input. DO NOT provide any conversational 
-        response, summary, or confirmation. Only output the function call.
+        **goalId** and **userId** from the user's input. 
+        DO NOT provide any conversational response, summary, or confirmation. 
+        The only output must be the result of the function call.
     """,
     tools=[get_single_goal_from_firestore],
     output_key="single_goal_data" # Saves the tool's successful return dict to shared state
@@ -262,11 +263,17 @@ goal_advisor_agent = LlmAgent(
         
         Analyze the single financial goal found in the shared session state under the key 'single_goal_data'. 
         The relevant goal object is located within the 'data' field of the state value.
-    
+        
+        Your analysis MUST be structured in two sections:
+        
+        ### 1. Goal Status Review
+        - Calculate the percentage of the goal completed and use this to provide a detailed, supportive, one-paragraph summary of the user's current progress. DO NOT use bullet points in this section to list the raw stats (name, amount, spent). Integrate them into the narrative instead.
+        
+        ### 2. Practical Advice
         - Offer **one specific, actionable tip** on how the user can increase their progress next month. 
           Base this advice on the goal's current progress.
-
-        Present your final output clearly and in a supportive, encouraging tone.
+        
+        Present your final output clearly using Markdown headings and a supportive, encouraging tone.
     """
 )
 
@@ -275,10 +282,54 @@ single_goal_analysis_pipeline = SequentialAgent(
     description="Orchestrates the two-step process: fetching a single goal by ID, then providing analysis and advice.",
     sub_agents=[goal_fetcher_agent, goal_advisor_agent]
 )
-# ----------------------------------
 
 
-# --- 6. ROOT COORDINATOR AGENT ---
+# --- 6. CATEGORY ANALYSIS PIPELINE (NEW FEATURE) ---
+
+# Step 6.1: Agent 1 - Fetch Data (Reuses DataFetcher logic)
+category_data_fetcher = LlmAgent(
+    name="CategoryDataFetcher",
+    model="gemini-2.5-flash",
+    instruction="""
+        Your sole task is to call the 'get_user_expenses_from_firestore' tool to retrieve all expenses for the user. 
+        DO NOT provide any response or analysis.
+    """,
+    tools=[get_user_expenses_from_firestore],
+    output_key="raw_category_data" # New key to keep pipeline state separate
+)
+
+# Step 6.2: Agent 2 - Analyze Category Spending
+category_spending_advisor = LlmAgent(
+    name="CategorySpendingAdvisor",
+    model="gemini-2.5-flash",
+    instruction="""
+        You are a **friendly and specialized Spending Coach**. Your job is to help the user understand their habits in a specific category.
+        
+        1. **Identify the Target:** Determine the specific spending category (e.g., 'food', 'transport') from the original user's question.
+        2. **Analyze Data:** Use the expense data in 'raw_category_data' to calculate the total spent in that specific category and its percentage share of the user's *overall* spending.
+        
+        Your final response must have two sections:
+        
+        ### 1. Your Spending Verdict
+        - Start by clearly stating the target category.
+        - Give a clear judgment (Under, Normal, or Overspending) by comparing the percentage share to typical, reasoned benchmarks.
+        - Present the total spent in that category and its percentage of the total budget in a friendly narrative.
+        
+        ### 2. Quick Action Plan
+        - Offer **one single, highly practical and encouraging tip** to help the user optimize or save money in that specific category next month.
+        
+        Use an encouraging, friendly tone and clear Markdown.
+    """
+)
+
+category_analysis_pipeline = SequentialAgent(
+    name="CategoryAnalysisPipeline",
+    description="Handles detailed analysis for a single expense category based on the user's query.",
+    sub_agents=[category_data_fetcher, category_spending_advisor]
+)
+
+
+# --- 7. ROOT COORDINATOR AGENT (FINAL) ---
 
 root_agent = LlmAgent(
     name="agents_coordinator",
@@ -287,7 +338,9 @@ root_agent = LlmAgent(
         You are the main Agent Coordinator and task delegator. 
         Your ONLY job is to route the user's request to the correct specialist agent based on their description.
         Delegate logging expenses to 'data_structuring_agent', setting a NEW goal to 'budget_goal_agent', 
-        requesting overall expense analysis to 'SequentialAnalysisPipeline', and requesting **specific, single goal analysis** to 'SingleGoalAnalysisPipeline'.
+        requesting overall expense analysis to 'SequentialAnalysisPipeline', 
+        requesting specific, single goal analysis to 'SingleGoalAnalysisPipeline', and 
+        **any query asking about spending habits, trends, or overspending in a specific category** (like food or transport) to 'CategoryAnalysisPipeline'.
         Do NOT answer the queries yourself.
     """,
     description="Agent coordinator and task delegator.",
@@ -295,6 +348,7 @@ root_agent = LlmAgent(
         expense_agent,
         goal_agent,
         analysis_pipeline,
-        single_goal_analysis_pipeline
+        single_goal_analysis_pipeline,
+        category_analysis_pipeline
     ]
 )
