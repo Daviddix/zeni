@@ -21,45 +21,120 @@ except ValueError:
 # ----------------------------------
 
 
-# --- 2. FIRESTORE TOOL FUNCTIONS ---
+# --- NEW HELPER FUNCTION: GOAL TRACKING LOGIC ---
+
+def check_and_update_related_goals(expense_data: dict) -> str:
+    """
+    Finds and updates related financial goals after a new expense has been saved.
+    
+    This function now implements semantic checking by matching the expense's 'category' 
+    against the goal's 'expense_tag' field, which was set by an LLM.
+    """
+    user_id = expense_data['userId']
+    category = expense_data['category']
+    amount = expense_data['amount']
+    
+    # 🎯 FIX: Query goals based on user ID and matching the expense's category 
+    # against the goal's 'expense_tag' field.
+    goals_query = db.collection("goals").where("userId", "==", user_id).where("expense_tag", "==", category).stream()
+    
+    updated_goals_count = 0
+    
+    for goal_doc in goals_query:
+        try:
+            goal_ref = goal_doc.reference
+            goal = goal_doc.to_dict()
+            
+            current_spent = goal.get('total_spent', 0)
+            goal_amount = goal.get('goal_amount', 0)
+            
+            new_spent = current_spent + amount
+            
+            # Calculate percentage completed
+            # This logic assumes the goal is to spend up to goal_amount (e.g., spending cap)
+            if goal_amount > 0:
+                new_progress_completed = (new_spent / goal_amount) * 100
+                
+                # --- NEW CALCULATIONS ---
+                new_progress_remaining = 100 - new_progress_completed
+                new_total_remaining = goal_amount - new_spent
+                
+                # Ensure values don't go below zero for clean display
+                if new_progress_remaining < 0:
+                    new_progress_remaining = 0
+                if new_total_remaining < 0:
+                    new_total_remaining = 0
+                # --- END NEW CALCULATIONS ---
+                
+            else:
+                new_progress_completed = 0
+                new_progress_remaining = 100
+                new_total_remaining = goal_amount
+            
+            # Update the goal document fields
+            goal_ref.update({
+                "total_spent": new_spent,
+                "progress_completed": new_progress_completed,
+                "progress_remaining": new_progress_remaining, # ADDED
+                "total_remaining": new_total_remaining,       # ADDED
+            })
+            updated_goals_count += 1
+            
+        except Exception as e:
+            # Log the specific goal update error without failing the main expense save
+            print(f"Goal Update Error for goal {goal_doc.id}: {e}")
+            
+    return f"Goal checker: {updated_goals_count} goal(s) updated."
+
+
+# --- 2. FIRESTORE TOOL FUNCTIONS (UPDATED) ---
 
 def save_expense_to_firestore(amount: float, name: str, date_str: str, category: str, userId: str) -> dict:
     """
-    Saves a structured expense record to the 'expenses' collection in Firestore.
+    Saves a structured expense record to the 'expenses' collection in Firestore 
+    AND triggers goal tracking.
     """
+    expense_doc = {
+        "amount": amount,
+        "name": name,
+        "date": firestore.SERVER_TIMESTAMP,
+        "category": category,
+        "timestamp": firestore.SERVER_TIMESTAMP,
+        "userId": userId
+    }
+    
     try:
-        expense_doc = {
-            "amount": amount,
-            "name": name,
-            "date": firestore.SERVER_TIMESTAMP,
-            "category": category,
-            "timestamp": firestore.SERVER_TIMESTAMP,
-            "userId": userId
-        }
-        
+        # 1. Save the expense
         doc_ref = db.collection("expenses").add(expense_doc)[1]
+        
+        # 2. Check and update related goals (NEW STEP)
+        goal_update_message = check_and_update_related_goals(expense_doc)
         
         return {
             "status": "success",
             "expense_id": doc_ref.id,
-            "message": f"Expense of ${amount:.2f} saved successfully."
+            "message": f"Expense of ${amount:.2f} logged successfully. {goal_update_message}"
         }
     except Exception as e:
         return {
             "status": "error",
-            "message": f"DATABASE ERROR: Failed to save expense. Reason: {e}"
+            "message": f"DATABASE ERROR: Failed to save expense/update goals. Reason: {e}"
         }
 
 
-def add_new_goal_to_firestore(userId: str, goal_name: str, goal_amount : float) -> dict:
+def add_new_goal_to_firestore(userId: str, goal_name: str, goal_amount : float, goal_description: str, expense_tag: str) -> dict:
     """
     Saves a new financial goal to the 'goals' collection in Firestore.
+    
+    🎯 UPDATED: Now accepts 'expense_tag' for semantic matching.
     """
     try:
         goal_doc = {
             "userId": userId,
             "name" : goal_name,
             "goal_amount": goal_amount,
+            "goal_description": goal_description,
+            "expense_tag": expense_tag,  # 🎯 NEW FIELD FOR SEMANTIC MATCHING
             "progress_completed": 0,
             "progress_remaining": 100,
             "total_remaining": goal_amount,
@@ -171,14 +246,17 @@ expense_agent = Agent(
     tools=[save_expense_to_firestore]
 )
 
-# 3.2. Goal Setting Agent
+# 3.2. Goal Setting Agent (UPDATED)
 goal_agent = Agent(
     name="budget_goal_agent",
     model='gemini-2.5-flash',
     description="This agent is a specialist in **setting or adding a new financial goal or budget**.",
     instruction="""
         You are a professional goal logger. Your SOLE function is to analyze the user's text,
-        extract the 'goal_name', 'goal_amount' and 'userId'
+        extract the 'goal_name', 'goal_amount', 'goal_description', 'userId', and crucially, 
+        the single most relevant expense category (which you must name 'expense_tag') from these fixed values: 
+        [food, transport, clothing, fun, health, productivity, misc.].
+        
         You MUST call the 'add_new_goal_to_firestore' tool with the extracted, structured data. 
         After the tool executes, relay the tool's return message back to the user without any commentary.
     """,

@@ -73,7 +73,7 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 70%;
+    height: 80%;
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
 }
@@ -107,6 +107,8 @@
 
 .ai-analysis-content .ai-analysis-body {
     height: 100%;
+    overflow-y: auto;
+    padding: 0 0 8rem 0;
 }
 
 .ai-analysis-content .goal-ana{
@@ -218,6 +220,16 @@
         border-radius: 2rem;
         border: 1px solid rgba(0, 0, 0, 0.10);
         background: #FFF;
+        max-height: 40rem;
+    }
+
+    .ai-analysis-content .ai-analysis-body{
+        padding-bottom: 0;
+        overflow: hidden;
+         max-height: 30rem;
+        overflow-y: auto;
+       padding-bottom: 0;
+
     }
 
     .zeni-ai-button {

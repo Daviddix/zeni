@@ -86,7 +86,7 @@ async function addGoalToFirestore(req, res){
       })
     }
 
-    const fullText = `${userText} from user with the userId of ${uid}`
+    const fullText = ` user with the userId of ${uid} has described a goal for you : ${userText}`
 
     const payload = {
         app_name: AGENT_APP_NAME,

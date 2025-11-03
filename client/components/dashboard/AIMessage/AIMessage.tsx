@@ -75,7 +75,8 @@ function AIMessage({messageToPerformAction} : aiMessageProps) {
             }
 
             console.log("AI session response:", responseInJson);
-            const textToDisplay = responseInJson.agentResponse[1].content.parts[0].functionResponse.response.message
+            const lastIndex = responseInJson.agentResponse.length - 1;
+            const textToDisplay = responseInJson.agentResponse[lastIndex].content.parts[0].text
             setSendingStatus("completed");
             setResponseMessage(textToDisplay)
         }
