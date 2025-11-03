@@ -5,7 +5,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-const BASE_URL = process.env.BACKEND_URL || "http://localhost:3001";
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
 
 function Signup() {
   const [formData, setFormData] = useState({

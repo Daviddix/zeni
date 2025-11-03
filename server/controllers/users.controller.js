@@ -118,16 +118,86 @@ async function getUserInfo(req, res) {
 
 async function logUserOut(req, res){
   try{
-    
+    // Clear the session cookie
+    res.clearCookie("session", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+      path: "/",
+    });
+
+    // res.clearCookie("uid", {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === "production",
+    //   sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    //   path: "/",
+    // });
+
+    res.status(200).json({
+      success: true,
+      message: "Logged out successfully"
+    });
   }
   catch(err){
-
+    console.error("Error logging out:", err);
+    res.status(500).json({
+      success: false,
+      message: "Error logging out",
+      error: err.message
+    });
   }
 }
 
+async function logUserIn(req, res) {
+  try {
+    const { idToken } = req.body;
+    const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
+
+    // Verify the ID token
+    const { auth } = require("../config/firebase");
+    const decoded = await auth.verifyIdToken(idToken);
+
+    // Check if user exists in Firestore
+    const userRef = db.collection("users").doc(decoded.uid);
+    const userDoc = await userRef.get();
+    
+    if (!userDoc.exists) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found. Please sign up first."
+      });
+    }
+
+    // Create Firebase session cookie
+    const sessionCookie = await auth.createSessionCookie(idToken, { expiresIn });
+
+    res.cookie("session", sessionCookie, {
+      maxAge: expiresIn,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+      path: "/",
+    });
+
+    res.status(200).json({ 
+      success: true,
+      message: "Logged in successfully",
+      user: userDoc.data()
+    });
+  } catch (err) {
+    console.error("Login error:", err);
+    res.status(401).json({ 
+      success: false,
+      message: "Login failed", 
+      error: err.message 
+    });
+  }
+}
 
 module.exports = {
   finishOnboardingProcess,
   updateUserCurrency,
-  getUserInfo
+  getUserInfo,
+  logUserOut,
+  logUserIn
 };

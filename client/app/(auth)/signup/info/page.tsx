@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import userIcon from "@/public/images/user-icon.svg"
 import "./info.css"
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 function Info() {
@@ -14,7 +14,7 @@ function Info() {
   const [submissionStatus, setSubmissionStatus] = useState<"idle" | "submitting" | "submitted">("idle");
 
   const router = useRouter()
-  const BASE_URL = process.env.BACKEND_URL || "http://localhost:3001";
+  const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001";
 
   async function finishSignup(){
     if(!formData.image || !formData.fullname.trim()){

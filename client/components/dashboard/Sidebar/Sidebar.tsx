@@ -11,7 +11,9 @@ import Image from "next/image";
 import placeholderImage from "@/public/images/placeholder-image.png"
 import { useAtomValue, useSetAtom } from "jotai";
 import { showAddTransactionModalAtom, userInfoAtom } from "@/states/dashboard.states";
-
+import firebase from "firebase/compat/app";
+import { auth } from "@/firebase/firebaseClient";
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
 
 function Sidebar() {
@@ -50,6 +52,33 @@ function Sidebar() {
     key={data.text}
     />
   })
+
+  async function logout() {
+  try {
+    // Call backend logout
+   const rawFetch =  await fetch(`${BASE_URL}/api/users/logout`, {
+      method: 'POST',
+      credentials: 'include'
+    });
+
+    const responseInJson = await rawFetch.json()
+    
+    if(!rawFetch.ok){
+      console.log(responseInJson)
+      throw new Error("Couldn't log you out")
+    }
+    // Sign out from Firebase Auth
+    await auth.signOut();
+    
+    // Clear local storage if you store anything
+    localStorage.clear();
+    
+    // Redirect to login
+    window.location.href = '/login';
+  } catch (error) {
+    console.error('Logout error:', error);
+  }
+}
 
   return (
    <aside className="dashboard-sidebar">
@@ -92,7 +121,13 @@ function Sidebar() {
             src={userInfo?.user.image || placeholderImage}
             />
 
+            <button 
+            onClick={()=>{
+              logout()
+            }}
+            >
             <p>Logout</p>
+            </button>
           </div>
 
         </aside>

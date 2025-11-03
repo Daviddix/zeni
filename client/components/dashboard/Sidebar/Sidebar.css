@@ -166,4 +166,15 @@
         align-items: center;
         justify-content: space-between;
     }
+
+    .profile-section > button{
+        border: none;
+        background-color: transparent;
+        margin: 0 0 0 1rem;
+    }
+
+    .profile-section p{
+        font-weight: 500;
+        color: rgb(187, 22, 22);
+    }
 }
