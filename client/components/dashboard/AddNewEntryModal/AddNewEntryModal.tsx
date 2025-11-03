@@ -15,12 +15,14 @@ import AIMessage from "../AIMessage/AIMessage"
 type userMessage =  {
     messageTyped : string;
     profilePicture : string;
+    imageData : UploadedImage | null
     from : "USER"
 }
 
 type aiMessage = {
-    messageToPerformAction : string
-    from : "AI"
+    messageToPerformAction : string,
+    from : "AI",
+     imageData : UploadedImage | null
 }
 
 type UploadedImage = {
@@ -77,16 +79,19 @@ function AddNewEntryModal() {
         const userMessageObject: userMessage = {
             messageTyped : userMessage,
             profilePicture : userInfo?.user.image as string,
-            from : "USER"
+            from : "USER",
+            imageData: imageUserUploaded
         }
 
         const aiMessageObject: aiMessage = {
             messageToPerformAction : userMessage,
-            from : "AI"
+            from : "AI",
+            imageData: imageUserUploaded
         }
 
         setMessages((prev)=> [...prev, userMessageObject, aiMessageObject])
         setUserMessage("")
+        setImageUserUploaded(null)
     }
 
    const mappedMessages = messages.map((message, index) => {
@@ -96,12 +101,14 @@ function AddNewEntryModal() {
                 key={index}
                 messageTyped={message.messageTyped} 
                 profilePicture={message.profilePicture} 
+                imageData={message.imageData}
             />
         );
     } else if(message.from == "AI"){
         return (
             <AIMessage
             key={index}
+            imageData={message.imageData}
             messageToPerformAction={message.messageToPerformAction}
             />
         )
@@ -172,7 +179,7 @@ function AddNewEntryModal() {
                     type="file"
                     ref={fileInputRef}
                     onChange={handleImageChange}
-                    accept="image/*"
+                    accept=".jpg, .jpeg"
                     style={{ display: 'none' }}
                 />
 
@@ -188,7 +195,7 @@ function AddNewEntryModal() {
             </div>
 
             <button 
-            disabled={userMessage.length == 0}
+            disabled={userMessage.length == 0 && !imageUserUploaded}
             >
                 <Image 
                 alt="send"

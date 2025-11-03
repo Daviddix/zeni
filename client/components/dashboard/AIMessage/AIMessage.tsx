@@ -3,16 +3,25 @@ import "./AIMessage.css"
 import zeniAIIcon from "@/public/images/zeni-ai-icon.svg"
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { convertImageToBase64 } from "@/libs/base";
+
+type UploadedImage = {
+    file: File;
+    previewUrl: string;
+    name: string;
+    size: number;
+}
 
 type aiMessageProps = {
     messageToPerformAction : string;
+    imageData : UploadedImage | null
 }
 
 type sendingStatusType = "sending" | "completed" | "error";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
-function AIMessage({messageToPerformAction} : aiMessageProps) {
+function AIMessage({messageToPerformAction, imageData} : aiMessageProps) {
     const [sendingStatus, setSendingStatus] = useState<sendingStatusType>("sending");
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [responseMessage, setResponseMessage] = useState<string>("");
@@ -58,13 +67,27 @@ function AIMessage({messageToPerformAction} : aiMessageProps) {
         setSendingStatus("sending");
         try{
             const sessionId = await createAISession();
-            const response = await fetch(`${BASE_URL}/api/transactions/ai/`, {
+            let url;
+            let payload;
+            if(imageData){
+                const base64Url = await convertImageToBase64(imageData.file);
+                url = `${BASE_URL}/api/transactions/ai/image/`;
+                payload = {
+                    sessionId,
+                    userText: messageToPerformAction,
+                    imageData : {...imageData, base : base64Url}
+                }
+            }else{
+                url = `${BASE_URL}/api/transactions/ai/`;
+                payload = { sessionId, userText: messageToPerformAction }
+            }
+            const response = await fetch(url, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 credentials : "include",
-                body: JSON.stringify({ sessionId, userText: messageToPerformAction })
+                body: JSON.stringify(payload)
             });
 
             const responseInJson = await response.json();
@@ -91,6 +114,7 @@ function AIMessage({messageToPerformAction} : aiMessageProps) {
             console.log("Error sending message to backend:", err);
         }
     }
+
   return (
     <div className="ai-message">
     <Image 

@@ -12,6 +12,16 @@
     border: 1px solid #99999969;
 }
 
+.user-message img.pic{
+    margin: 1rem 0 ;
+    border-radius: .5rem;
+    object-fit: cover;
+    -webkit-border-radius: .5rem;
+    -moz-border-radius: .5rem;
+    -ms-border-radius: .5rem;
+    -o-border-radius: .5rem;
+}
+
 .user-message p {
     font-size: 1.2rem;
 }
