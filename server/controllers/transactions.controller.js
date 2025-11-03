@@ -167,6 +167,75 @@ async function createTransactionFromText(req, res){
   }
 }
 
+async function createTransactionFromImage(req, res){
+  try{
+    const {uid} = req.user 
+    const {userText, sessionId, imageData} = req.body 
+
+    if(!userText){
+      return res.status(400).json({
+        success: false,
+        message: "userText is required"
+      })
+    }
+
+    const fullText = `${userText || "No description"} from user with the userId of ${uid}`
+
+    const payload = {
+        app_name: AGENT_APP_NAME,
+        streaming : false,
+        user_id: uid,
+        session_id: sessionId,
+        new_message: {
+            role: "user",
+            parts: [{ text: fullText }, {
+              inlineData : {
+                mimeType: "image/png",
+                data: imageData.base,
+                displayName : imageData.name
+              }
+            }]
+        }
+    };
+
+    console.log("Sending payload to AI Agent:", payload);
+
+    const rawFetch = await fetch(`${AI_AGENT_URL}/run`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const agentResponse = await rawFetch.json();
+
+    if(!rawFetch.ok){
+      console.log("AI Agent Request Failed:", agentResponse);
+      return res.status(500).json({
+        success: false,
+        message: "AI agent request failed"
+      })
+    }
+
+
+    console.log("AI Agent Response:", agentResponse);
+
+    return res.status(200).json({
+      agentResponse
+    });
+  }
+  catch(err){
+    console.log("Error in createTransactionFromImage:", err);
+    res.status(500).json({
+      success: false,
+      message: "Failed to create transaction from image",
+      error: err.message
+    })
+
+  }
+}
+
 async function getTotalExpensesByPeriod(req, res) {
     const { uid } = req.user; 
     const { period } = req.params; // Expects 'today', 'week', or 'month'
@@ -282,4 +351,4 @@ async function getAnalysisForTransactions(req, res){
   }
 }
 
-module.exports = {getUsersTransactions, createTransactionFromText, createAISessionForUser, getTotalExpensesByPeriod, getAnalysisForTransactions}
+module.exports = {getUsersTransactions, createTransactionFromText, createAISessionForUser, getTotalExpensesByPeriod, getAnalysisForTransactions, createTransactionFromImage}

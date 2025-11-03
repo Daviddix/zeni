@@ -7,7 +7,7 @@ import sendIcon from "@/public/images/send-icon.svg"
 import EntryImageUpload from "../EntryImageUpload/EntryImageUpload"
 import { useAtomValue, useSetAtom } from "jotai"
 import { showAddTransactionModalAtom, userInfoAtom } from "@/states/dashboard.states"
-import { useState } from "react"
+import { useState, useRef } from "react"
 import EmptyText from "../EmptyText/EmptyText"
 import UserMessage from "../UserMessage/UserMessage"
 import AIMessage from "../AIMessage/AIMessage"
@@ -23,12 +23,55 @@ type aiMessage = {
     from : "AI"
 }
 
+type UploadedImage = {
+    file: File;
+    previewUrl: string;
+    name: string;
+    size: number;
+}
+
 function AddNewEntryModal() {
     const setShowModal = useSetAtom(showAddTransactionModalAtom)
-    const imageUserUploaded = null
+    const [imageUserUploaded, setImageUserUploaded] = useState<UploadedImage | null>(null)
     const [messages, setMessages] = useState<(userMessage | aiMessage)[]>([])
     const [userMessage, setUserMessage] = useState("")
     const userInfo = useAtomValue(userInfoAtom)
+    const fileInputRef = useRef<HTMLInputElement>(null)
+
+    function handleImageButtonClick() {
+        fileInputRef.current?.click()
+    }
+
+    function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0]
+        if (file) {
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file')
+                return
+            }
+
+            // Create preview URL
+            const previewUrl = URL.createObjectURL(file)
+
+            setImageUserUploaded({
+                file,
+                previewUrl,
+                name: file.name,
+                size: file.size
+            })
+        }
+    }
+
+    function removeImage() {
+        if (imageUserUploaded?.previewUrl) {
+            URL.revokeObjectURL(imageUserUploaded.previewUrl)
+        }
+        setImageUserUploaded(null)
+        if (fileInputRef.current) {
+            fileInputRef.current.value = ''
+        }
+    }
 
     async function submitUserMessage(){
         const userMessageObject: userMessage = {
@@ -99,7 +142,14 @@ function AddNewEntryModal() {
         }
            </div>
 
-           {imageUserUploaded && <EntryImageUpload />}
+           {imageUserUploaded && (
+            <EntryImageUpload 
+                imageUrl={imageUserUploaded.previewUrl}
+                imageName={imageUserUploaded.name}
+                imageSize={imageUserUploaded.size}
+                onRemove={removeImage}
+            />
+           )}
 
            <form 
            onSubmit={(e)=>{
@@ -118,7 +168,18 @@ function AddNewEntryModal() {
                 id="entry"
                 type="text" placeholder='Today I bought...' />
 
-                <button type="button">
+                <input 
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleImageChange}
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                />
+
+                <button 
+                    type="button"
+                    onClick={handleImageButtonClick}
+                >
                 <Image 
                 alt="image icon"
                 src={imageIcon}
