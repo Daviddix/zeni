@@ -116,6 +116,15 @@ async function getUserInfo(req, res) {
   }
 }
 
+async function logUserOut(req, res){
+  try{
+    
+  }
+  catch(err){
+
+  }
+}
+
 
 module.exports = {
   finishOnboardingProcess,

@@ -25,6 +25,7 @@ function Goals() {
   const setGoalsAtom = useSetAtom(allBudgetGoalsAtom);
   const [selectedGoal, setSelectedGoal] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [showAiPopup, setShowAIPopup] = useState(false)
 
   async function getUserGoals() {
     setFetchingStatus("loading");
@@ -148,7 +149,11 @@ function Goals() {
 
   return (
     <main className="goals-main">
-      <button className="zeni-ai-button">
+      <button 
+       onClick={()=>{
+          setShowAIPopup(true)
+        }}
+      className="zeni-ai-button">
         <Image src={zeniAiIcon} alt="add icon" />
       </button>
 
@@ -182,12 +187,16 @@ function Goals() {
           </div>
         </div>
 
-        <div className="ai-analysis-goals">
+        <div className={showAiPopup ? "ai-analysis-goals" : "ai-analysis-goals hidden"}>
           <div className="ai-analysis-content">
             <header>
               <p>AI ANALYSIS</p>
 
-              <button>
+              <button
+                onClick={()=>{
+          setShowAIPopup(false)
+        }}
+              >
                 <Image alt="minimize" src={downIcon} />
               </button>
             </header>

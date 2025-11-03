@@ -68,6 +68,10 @@
     backdrop-filter: blur(10px);
 }
 
+.ai-analysis-goals.hidden{
+    display: none;
+}
+
 .ai-analysis-goals .ai-analysis-content {
     background-color: var(--white);
     position: absolute;
@@ -206,6 +210,10 @@
         position: sticky;
         top: 1rem;
     }
+
+    .ai-analysis-goals.hidden{
+    display: initial;
+}
 
     .ai-analysis-goals .ai-analysis-content header>button {
         display: none;

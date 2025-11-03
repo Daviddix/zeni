@@ -36,7 +36,6 @@
 
 .entries-and-ai-container .entries-ai-analysis-bg {
     position: fixed;
-    /* display: none; */
     top: 0;
     left: 0;
     width: 100%;
@@ -44,6 +43,10 @@
     z-index: 66;
     background: rgba(0, 0, 0, 0.367);
     backdrop-filter: blur(10px);
+}
+
+.entries-ai-analysis-bg.hidden{
+    display: none;
 }
 
 .entries-ai-analysis-bg .ai-analysis-entries {
@@ -185,6 +188,10 @@
         position: sticky;
         top: 1rem;
      }
+
+     .entries-ai-analysis-bg.hidden{
+    display: initial;
+}
 
     .entries-ai-analysis-bg .ai-analysis-entries header{
         border-top: none;

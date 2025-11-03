@@ -32,6 +32,7 @@ function Entries() {
   const [userMessage, setUserMessage] = useState("")
   const userInfo = useAtomValue(userInfoAtom)
   const [sendingStatus, setSendingStatus] = useState<"idle" | "sending">("idle")
+  const [showAiPopup, setShowAIPopup] = useState(false)
 
   async function createAISession() {
     try {
@@ -135,7 +136,11 @@ function Entries() {
   return (
     <main className="entries-main">
 
-        <button className="zeni-ai-button">
+        <button
+        onClick={()=>{
+          setShowAIPopup(true)
+        }}
+        className="zeni-ai-button">
         <Image
           src={zeniAiIcon}
           alt="add icon"
@@ -154,14 +159,18 @@ function Entries() {
             <TransactionsTable tableTitle="Your Transactions" />
         </div>
 
-        <div className="entries-ai-analysis-bg">
+        <div className={showAiPopup ? "entries-ai-analysis-bg" : "entries-ai-analysis-bg hidden"}>
 
        <div className="ai-analysis-entries">
 
         <header>
             <p>ASK ZENI AI</p>
 
-            <button>
+            <button
+            onClick={()=>{
+          setShowAIPopup(false)
+        }}
+            >
                 <Image 
                 alt="close"
                 src={downIcon}
