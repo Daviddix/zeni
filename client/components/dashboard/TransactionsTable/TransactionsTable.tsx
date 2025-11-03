@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./TransactionsTable.css"
-import { useSetAtom } from "jotai";
-import { allExpensesAtom } from "@/states/dashboard.states";
+import { useAtomValue, useSetAtom } from "jotai";
+import { allExpensesAtom, userInfoAtom } from "@/states/dashboard.states";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
@@ -18,6 +18,8 @@ function TransactionsTable({tableTitle} : {tableTitle?: string}) {
   const [transactions, setTransactions] = useState<transactionType[]>([]);
   const [fetchStatus, setFetchStatus] = useState<"loading" | "error" | "success">("loading");
   const setAllExpenses = useSetAtom(allExpensesAtom);
+  const userInfo = useAtomValue(userInfoAtom)
+  const userCurrencySymbol = userInfo?.user.currency.symbol
 
     async function getUserTransactions(){
     try{
@@ -32,6 +34,11 @@ function TransactionsTable({tableTitle} : {tableTitle?: string}) {
 
         if (!response.ok) {
             throw new Error(responseInJson.message || "Unknown error occurred");
+        }
+        if(tableTitle === "LAST 3 ENTRIES"){
+          setTransactions(responseInJson.expenses.slice(0,3));
+          setFetchStatus("success");
+          return;
         }
         setTransactions(responseInJson.expenses);
         setAllExpenses(responseInJson.expenses);
@@ -48,11 +55,11 @@ function TransactionsTable({tableTitle} : {tableTitle?: string}) {
         <tr key={transaction.id}>
           <td>
             <div className="transaction-cell">
-              <div className="avatar">MB</div>
+              <div className="avatar">{transaction.name.toUpperCase()[0] || "A"}{transaction.name.toUpperCase()[1] || "A"}</div>
               <span className="name">{transaction.name}</span>
             </div>
           </td>
-          <td>${transaction.amount.toFixed(2)}</td>
+          <td>{userCurrencySymbol}{transaction.amount.toFixed(2)}</td>
           <td>{new Date(transaction.date).toLocaleDateString()}</td>
           <td><span className="badge">{transaction.category}</span></td>
         </tr>
@@ -82,17 +89,24 @@ function TransactionsTable({tableTitle} : {tableTitle?: string}) {
       {fetchStatus === "loading" ? (
         <tr>
           <td colSpan={4} style={{ textAlign: "center" }}>
-            Loading transactions...
+            Loading your entries...
           </td>
         </tr>
       ) : fetchStatus === "error" ? (
         <tr>
           <td colSpan={4} style={{ textAlign: "center" }}>
-            Error loading transactions.
+            Error loading entries.
           </td>
         </tr>
       ) : (
-        mappedTransactions
+        mappedTransactions.length == 0 ?
+        <tr>
+         <td colSpan={4} style={{ textAlign: "center" }}>
+            You haven&apos;t added any entry yet  .
+          </td> 
+        </tr>
+          :
+          mappedTransactions
       )}
       </tbody>
     </table>

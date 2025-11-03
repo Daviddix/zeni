@@ -2,6 +2,7 @@ import Image from "next/image";
 import "./AIMessage.css"
 import zeniAIIcon from "@/public/images/zeni-ai-icon.svg"
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 type aiMessageProps = {
     messageToPerformAction : string;
@@ -113,7 +114,7 @@ function AIMessage({messageToPerformAction} : aiMessageProps) {
 
     {
         sendingStatus === "completed" && (
-            <p className="ai-message-text success-text">{responseMessage}</p>
+            <p className="ai-message-text success-text">Your expense has been logged successfully. You can view all your expenses here : <Link href={"/dashboard/entries"}>All Expenses</Link></p>
         )
     }
     </div>

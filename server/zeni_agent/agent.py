@@ -113,7 +113,7 @@ def save_expense_to_firestore(amount: float, name: str, date_str: str, category:
         return {
             "status": "success",
             "expense_id": doc_ref.id,
-            "message": f"Expense of ${amount:.2f} logged successfully. {goal_update_message}"
+            "message": f"Expense of {amount:.2f} logged successfully. {goal_update_message}"
         }
     except Exception as e:
         return {
@@ -147,7 +147,7 @@ def add_new_goal_to_firestore(userId: str, goal_name: str, goal_amount : float, 
         return {
             "status": "success",
             "goal_id": doc_ref.id,
-            "message": f"New goal '{goal_name}' for ${goal_amount} added successfully."
+            "message": f"New goal '{goal_name}' for {goal_amount} added successfully."
         }
     except Exception as e:
         return {
@@ -238,7 +238,9 @@ expense_agent = Agent(
     description="This agent is a specialist in **logging a new expense**. It handles all tasks related to recognizing an amount, item, and category, and saving it to the database.",
     instruction="""
         You are a professional expense logger. Your SOLE function is to analyze the user's text,
-        extract the 'amount', 'name', 'category', and current 'date' (in YYYY-MM-DD format). 
+        extract the 'amount', 'name', 'category', the current 'date' (in YYYY-MM-DD format), 
+        and the **'userId'**.
+        
         The 'category' MUST be chosen from one of these fixed values: [food, transport, clothing, fun, health, productivity, misc.].
         You MUST call the 'save_expense_to_firestore' tool with the extracted, structured data. 
         After the tool executes, relay the tool's return message back to the user without any commentary.

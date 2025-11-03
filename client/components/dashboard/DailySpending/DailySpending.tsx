@@ -1,4 +1,6 @@
 import { formatNumber } from "@/libs/format";
+import { userInfoAtom } from "@/states/dashboard.states";
+import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
@@ -6,6 +8,8 @@ const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 function DailySpending() {
     const [fetchStatus, setFetchStatus] = useState<'loading' | 'error' | 'success'>('loading');
     const [data, setData] = useState<number>(0);
+    const userInfo = useAtomValue(userInfoAtom)
+    const userCurrencySymbol = userInfo?.user.currency.symbol
     async function getTodaysTransaction(){
     try{
       setFetchStatus('loading');
@@ -31,7 +35,7 @@ function DailySpending() {
     <div className="single-spending-card">
             {fetchStatus === 'loading' && <h2>Loading...</h2>}
             {fetchStatus === 'error' && <h2>Error</h2>}
-            {fetchStatus === 'success' && <h2>${formatNumber(data)}</h2>}
+            {fetchStatus === 'success' && <h2>{userCurrencySymbol}{formatNumber(data)}</h2>}
             <p>SPENT TODAY</p>
           </div>
   )

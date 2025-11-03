@@ -9,8 +9,8 @@ import Image from "next/image";
 import DeleteGoalModal from "@/components/dashboard/DeleteGoalModal/DeleteGoalModal";
 import AddGoalModal from "@/components/dashboard/AddGoalModal/AddGoalModal";
 import { useEffect, useState } from "react";
-import { useSetAtom } from "jotai";
-import { allBudgetGoalsAtom } from "@/states/dashboard.states";
+import { useAtomValue, useSetAtom } from "jotai";
+import { allBudgetGoalsAtom, userInfoAtom } from "@/states/dashboard.states";
 import EmptyText from "@/components/dashboard/EmptyText/EmptyText";
 import TodaysDate from "@/components/dashboard/TodaysDate/TodaysDate";
 import Markdown from "react-markdown";
@@ -26,6 +26,8 @@ function Goals() {
   const [selectedGoal, setSelectedGoal] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [showAiPopup, setShowAIPopup] = useState(false)
+    const userInfo = useAtomValue(userInfoAtom)
+    const userCurrencySymbol = userInfo?.user.currency.symbol
 
   async function getUserGoals() {
     setFetchingStatus("loading");
@@ -55,6 +57,7 @@ function Goals() {
       total_spent={goal.total_spent}
       progress_completed={goal.progress_completed}
       goal_amount={goal.goal_amount}
+      userCurrencySymbol={userCurrencySymbol || "$"}
       setSelectedGoal={setSelectedGoal}
       id={goal.id}
       sendMessageToBackend={() => sendMessageToBackend(goal.id)}

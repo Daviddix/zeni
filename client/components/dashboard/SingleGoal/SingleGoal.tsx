@@ -14,10 +14,11 @@ type singleGoalProps = {
     id : string,
     sendMessageToBackend : (id:string) => Promise<void>,
     isDisabled? : boolean,
-    isSelected? : boolean
+    isSelected? : boolean,
+    userCurrencySymbol : string
 }
 
-function SingleGoal({ name, total_remaining, progress_remaining, total_spent, progress_completed, goal_amount, setSelectedGoal, id, sendMessageToBackend, isDisabled = false, isSelected = false }: singleGoalProps) {
+function SingleGoal({ name, userCurrencySymbol, total_remaining, progress_remaining, total_spent, progress_completed, goal_amount, setSelectedGoal, id, sendMessageToBackend, isDisabled = false, isSelected = false }: singleGoalProps) {
   return (
     <div 
     onClick={()=>{
@@ -40,7 +41,7 @@ function SingleGoal({ name, total_remaining, progress_remaining, total_spent, pr
               </header>
 
               <div className="budget-details">
-                <h2>{Math.round((progress_completed / goal_amount) * 100)}%</h2>
+                <h2>{progress_completed}%</h2>
 
                 <div className="progress-bar" style={
                   {
@@ -53,11 +54,11 @@ function SingleGoal({ name, total_remaining, progress_remaining, total_spent, pr
 
                 <div className="price-details">
                   <div className="spent">
-                    <p>${total_spent} <small>spent</small></p>
+                    <p>{userCurrencySymbol}{total_spent} <small>spent</small></p>
                   </div>
 
                   <div className="remaining">
-                    <p>${total_remaining} <small>remaining</small></p>
+                    <p>{userCurrencySymbol}{total_remaining} <small>remaining</small></p>
                   </div>
                 </div>
               </div>
