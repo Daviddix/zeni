@@ -56,7 +56,7 @@
 
 .single-spending-card h2 {
     color: var(--black-700, #4D4D4D);
-    font-family: "Instrument Sans";
+    font-family: "Instrument Sans", sans-serif;
     font-size: 3rem;
     font-style: normal;
     font-weight: 600;

@@ -81,7 +81,7 @@
 
 .budget-details .price-details p {
     color: var(--black-700, #4D4D4D);
-    font-family: "Instrument Sans";
+    font-family: "Instrument Sans", sans-serif;
     font-size: 1.2rem;
     font-style: normal;
     font-weight: 600;
@@ -91,7 +91,7 @@
 
 .budget-details .price-details small {
     color: var(--black-700, #4D4D4D);
-    font-family: "Instrument Sans";
+    font-family: "Instrument Sans", sans-serif;
     font-size: 0.8rem;
     font-style: normal;
     font-weight: 400;
