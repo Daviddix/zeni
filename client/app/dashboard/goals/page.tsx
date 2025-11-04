@@ -226,7 +226,7 @@ function Goals() {
         </div>
       </div>
 
-      {/* <DeleteGoalModal /> */}
+      <DeleteGoalModal />
       {showAddGoalModal && (
         <AddGoalModal 
           setShowAddGoalModal={setShowAddGoalModal} 

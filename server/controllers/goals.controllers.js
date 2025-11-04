@@ -196,10 +196,40 @@ async function getAnalysisForGoal(req, res){
   }
 }
 
+async function deleteGoal(req, res){
+  try{
+    const {goalId} = req.params;
+
+    if(!goalId){
+      return res.status(400).json({
+        success: false,
+        message: "goalId is required"
+      })
+    }
+
+    // Delete the goal from Firestore
+    const goalRef = db.collection("goals").doc(goalId);
+    await goalRef.delete();
+
+    return res.status(200).json({
+      success: true,
+      message: "Goal deleted successfully"
+    });
+  }catch(err){
+    console.log("Error in deleteGoal:", err);
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete goal",
+      error: err.message
+    });
+  }
+}
+
 
 module.exports = {
     getAllGoalsByUser,
     addGoalToFirestore,
     createAISessionForUser,
-    getAnalysisForGoal
+    getAnalysisForGoal,
+    deleteGoal
 };
