@@ -7,7 +7,7 @@ import DailySpending from "@/components/dashboard/DailySpending/DailySpending"
 import WeeklySpending from "@/components/dashboard/WeeklySpending/WeeklySpending"
 import MonthlySpending from "@/components/dashboard/MonthlySpending/MonthlySpending"
 import PieChartWithCustomizedLabel from "@/components/dashboard/CategoryPieChart/CategoryPieChart"
-import { allBudgetGoalsAtom, allExpensesAtom } from "@/states/dashboard.states"
+import { allExpensesAtom } from "@/states/dashboard.states"
 import { useAtomValue } from "jotai"
 import { normalizeData } from "@/libs/normalize"
 // const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL

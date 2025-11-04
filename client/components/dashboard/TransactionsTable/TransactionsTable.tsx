@@ -36,6 +36,7 @@ function TransactionsTable({tableTitle} : {tableTitle?: string}) {
             throw new Error(responseInJson.message || "Unknown error occurred");
         }
         if(tableTitle === "LAST 3 ENTRIES"){
+          setAllExpenses(responseInJson.expenses);
           setTransactions(responseInJson.expenses.slice(0,3));
           setFetchStatus("success");
           return;
