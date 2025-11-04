@@ -28,6 +28,8 @@ function Goals() {
     const [showAiPopup, setShowAIPopup] = useState(false)
     const userInfo = useAtomValue(userInfoAtom)
     const userCurrencySymbol = userInfo?.user.currency.symbol
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [goalToDelete, setGoalToDelete] = useState<{ id: string; name: string } | null>(null);
 
   async function getUserGoals() {
     setFetchingStatus("loading");
@@ -48,6 +50,24 @@ function Goals() {
   }
   const [sendingStatus, setSendingStatus] = useState<"sending" | "idle" | "error" | "completed">("idle");
 
+  function handleDeleteClick(goalId: string, goalName: string) {
+    setGoalToDelete({ id: goalId, name: goalName });
+    setShowDeleteModal(true);
+  }
+
+  function handleCancelDelete() {
+    setShowDeleteModal(false);
+    setGoalToDelete(null);
+  }
+
+  function handleDeleteSuccess() {
+    setShowDeleteModal(false);
+    setGoalToDelete(null);
+    setSuccessMessage("Goal deleted successfully");
+    setTimeout(() => setSuccessMessage(null), 5000);
+    getUserGoals(); // Refresh the goals list
+  }
+
   const mappedGoals = allGoals.map((goal) => (
     <SingleGoal
       key={goal.id}
@@ -63,6 +83,7 @@ function Goals() {
       sendMessageToBackend={() => sendMessageToBackend(goal.id)}
       isDisabled={sendingStatus === "sending" && selectedGoal !== goal.id}
       isSelected={selectedGoal === goal.id}
+      onDeleteClick={handleDeleteClick}
     />
   ));
 
@@ -226,7 +247,15 @@ function Goals() {
         </div>
       </div>
 
-      <DeleteGoalModal />
+      {showDeleteModal && goalToDelete && (
+        <DeleteGoalModal 
+          goalId={goalToDelete.id}
+          goalName={goalToDelete.name}
+          onCancel={handleCancelDelete}
+          onDeleteSuccess={handleDeleteSuccess}
+        />
+      )}
+      
       {showAddGoalModal && (
         <AddGoalModal 
           setShowAddGoalModal={setShowAddGoalModal} 

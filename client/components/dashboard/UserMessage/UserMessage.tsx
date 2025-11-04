@@ -11,7 +11,7 @@ type UploadedImage = {
 type userMessageProps = {
     profilePicture : string;
     messageTyped : string;
-    imageData : UploadedImage | null;
+    imageData? : UploadedImage | null;
 }
 
 function UserMessage({profilePicture, messageTyped, imageData} : userMessageProps) {

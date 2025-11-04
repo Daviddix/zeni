@@ -15,10 +15,11 @@ type singleGoalProps = {
     sendMessageToBackend : (id:string) => Promise<void>,
     isDisabled? : boolean,
     isSelected? : boolean,
-    userCurrencySymbol : string
+    userCurrencySymbol : string,
+    onDeleteClick : (goalId: string, goalName: string) => void
 }
 
-function SingleGoal({ name, userCurrencySymbol, total_remaining, progress_remaining, total_spent, progress_completed, goal_amount, setSelectedGoal, id, sendMessageToBackend, isDisabled = false, isSelected = false }: singleGoalProps) {
+function SingleGoal({ name, userCurrencySymbol, total_remaining, progress_remaining, total_spent, progress_completed, goal_amount, setSelectedGoal, id, sendMessageToBackend, isDisabled = false, isSelected = false, onDeleteClick }: singleGoalProps) {
   return (
     <div 
     onClick={()=>{
@@ -32,7 +33,12 @@ function SingleGoal({ name, userCurrencySymbol, total_remaining, progress_remain
               <header>
                 <p>{name}</p>
 
-                <button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent triggering the goal selection
+                    onDeleteClick(id, name);
+                  }}
+                >
                   <Image 
                   alt="delete goal"
                   src={deleteIcon}
