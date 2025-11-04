@@ -14,6 +14,7 @@ import { allBudgetGoalsAtom, userInfoAtom } from "@/states/dashboard.states";
 import EmptyText from "@/components/dashboard/EmptyText/EmptyText";
 import TodaysDate from "@/components/dashboard/TodaysDate/TodaysDate";
 import Markdown from "react-markdown";
+import LoadingSpinner from "@/components/dashboard/LoadingSpinner/LoadingSpinner";
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 function Goals() {
@@ -198,7 +199,7 @@ function Goals() {
 
           <div className="budget-goals-container">
             {fetchingStatus === "loading" ? (
-              <p>Loading goals...</p>
+              <LoadingSpinner text="Loading your goals..." />
             ) : fetchingStatus === "error" ? (
               <p>Error fetching goals</p>
             ) : mappedGoals.length > 0 ? (
@@ -236,7 +237,7 @@ function Goals() {
                 </div>
               ):
               sendingStatus === "sending" ? (
-                <p className="loading-text">Analyzing your goal...</p>
+                <LoadingSpinner text="Analyzing your goal..." />
               ) : sendingStatus === "error" ? (
                 <p className="error-text">Error: {errorMessage}</p>
               ) :
