@@ -1,5 +1,6 @@
 import { normalizeData } from '@/libs/normalize';
 import { Cell, Pie, PieChart, PieLabelRenderProps } from 'recharts';
+import EmptyText from '../EmptyText/EmptyText';
 
 const RADIAN = Math.PI / 180;
 const COLORS = ['#763df1', '#00C49F', '#FFBB28', '#FF8042', '#3498db', '#e74c3c']; 
@@ -32,6 +33,10 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, nam
 
 export default function PieChartWithCustomizedLabel({ isAnimationActive = true, allExpenses }: { isAnimationActive?: boolean, allExpenses: expenseType[] }) {
   const chartData = normalizeData(allExpenses);
+
+  if(allExpenses.length === 0) {
+    return <EmptyText textToDisplay="No expenses to display yet" />;
+  }
 
   return (
     <PieChart style={{ width: '100%', maxWidth: '500px', maxHeight: '25rem', aspectRatio: 1 }} responsive>

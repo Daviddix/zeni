@@ -70,6 +70,7 @@
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
+    object-fit: cover;
 }
 
 @media screen and (min-width: 900px) {

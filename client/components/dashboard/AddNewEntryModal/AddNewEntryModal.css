@@ -78,7 +78,7 @@
     overflow-y: auto;
 }
 
-.add-entry-messages>h1.empty-text {
+h1.empty-text {
     color: var(--primary-dark-600, #2F1860);
     text-align: center;
     font-family: "Instrument Sans";
