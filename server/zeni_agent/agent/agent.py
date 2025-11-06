@@ -4,12 +4,21 @@ from google.adk.agents import Agent, LlmAgent, SequentialAgent
 import os
 from datetime import datetime, date 
 
+AGENT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# The credential file name
+CRED_FILE_NAME = "firebase-cred.json"
+
+# Construct the path relative to the agent.py file's location (AGENT_DIR)
+# This path works inside the Cloud Run container because the entire zeni_agent folder was uploaded.
+CREDENTIALS_PATH = os.path.join(AGENT_DIR, CRED_FILE_NAME)
+
 # --- 1. FIRESTORE INITIALIZATION ---
 # NOTE: This code assumes the ADK framework is running in an environment 
 # where it can access the credentials file path specified in the environment variables 
 # or the local fallback path.
 try:
-    cred_path = os.environ.get("FIREBASE_CREDENTIALS_PATH", "C:\\Users\\hp\\Documents\\Zeni\\server\\firebase-cred.json")
+    cred_path = CREDENTIALS_PATH
     # Check if the Firebase app has already been initialized (prevents errors on ADK reloads)
     if not firebase_admin._apps:
         cred = credentials.Certificate(cred_path)
