@@ -18,15 +18,14 @@ function page() {
 
       <section className="hero-section">
         <div className="hero-badge">💰 Zeni AI: Your Proactive Financial Copilot</div>
-        <h1>Intelligent Tracking, Effortless Goals.</h1>
+        <h1>A New Way to Track your Spending.</h1>
         <p className="hero-description">
-          Welcome to Zeni AI, the only financial tool powered by an advanced multi-agent system 
-          designed to turn your spending habits into actionable savings. Stop logging data into 
+          Welcome to Zeni AI, the only financial tool powered by an advanced multi-agent system. Stop logging data into 
           static spreadsheets; start engaging with an AI that actively monitors your goals and 
           advises you on every transaction.
         </p>
         <Link href="/signup" className="primary-button cta-button">
-          Get Started Free
+          Get Started
         </Link>
       </section>
 

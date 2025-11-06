@@ -5,6 +5,10 @@
     padding: 0;
 }
 
+.landing-page-main a{
+    text-decoration: none;
+}
+
 /* Navigation */
 .landing-nav {
     display: flex;
@@ -71,17 +75,19 @@
 }
 
 .hero-description {
-    font-size: 1.25rem;
-    line-height: 1.6;
-    color: var(--text-secondary);
+    font-size: 1.4rem;
+    line-height: 1.5;
+    opacity: .8;
+    color: var(--primary-dark-800);
     margin: 0 auto 3rem auto;
-    max-width: 700px;
+    max-width: 500px;
 }
 
 .cta-button {
     padding: 1rem 2.5rem;
     font-size: 1.1rem;
     font-weight: 600;
+    width: 20rem;
 }
 
 .cta-button:hover {
@@ -99,7 +105,7 @@
 
 .difference-section h2 {
     text-align: center;
-    font-size: 3rem;
+    font-size: 4rem;
     letter-spacing: -1.5px;
     margin-bottom: 1.5rem;
     color: var(--text-primary);
@@ -107,10 +113,10 @@
 
 .section-subtitle {
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     line-height: 1.6;
     color: var(--text-secondary);
-    max-width: 800px;
+    max-width: 400px;
     margin: 0 auto 4rem auto;
 }
 
@@ -184,6 +190,8 @@
     line-height: 1.6;
     color: var(--text-secondary);
     margin-bottom: 2.5rem;
+    max-width: 400px;
+    margin-inline: auto;
 }
 
 .cta-button-secondary {
@@ -228,17 +236,17 @@
 /* Responsive Design */
 @media (max-width: 768px) {
     .hero-section h1 {
-        font-size: 2.5rem;
+        font-size: 4.5rem;
         letter-spacing: -1.5px;
     }
 
     .hero-description {
-        font-size: 1rem;
+        font-size: 1.4rem;
     }
 
     .difference-section h2,
     .cta-section h2 {
-        font-size: 2rem;
+        font-size: 3rem;
     }
 
     .agents-grid {
