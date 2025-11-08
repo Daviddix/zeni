@@ -1,6 +1,6 @@
 const { db } = require("../config/firebase");
 const AI_AGENT_URL = process.env.AI_AGENT_URL || "http://localhost:8000";
-const AGENT_APP_NAME = 'zeni_agent'; // Use the directory name or app name ADK uses
+const AGENT_APP_NAME = 'agent'; // Use the directory name or app name ADK uses
 
 async function getAllGoalsByUser(req, res) {
   try{

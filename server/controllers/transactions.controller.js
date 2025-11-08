@@ -2,7 +2,7 @@ const { db } = require("../config/firebase");
 const { getDateRange } = require("../libs/date");
 
 const AI_AGENT_URL = process.env.AI_AGENT_URL || "http://localhost:8000";
-const AGENT_APP_NAME = 'zeni_agent'; // Use the directory name or app name ADK uses
+const AGENT_APP_NAME = 'agent'; // Use the directory name or app name ADK uses
 
 async function getUsersTransactions(req, res) {
     // Assuming the user's ID is retrieved from the authenticated request
