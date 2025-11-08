@@ -10,11 +10,12 @@ const goalsRoutes = require('./routes/goals.routes.js');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000" 
+
+const allowedOrigins = ["http://localhost:3000", "https://zeni-psi.vercel.app"]
 
 // Middleware
 app.use(cors({
-  origin : FRONTEND_URL,
+  origin : allowedOrigins,
   credentials : true
 }));
 app.use(express.json({ limit: '10mb' }));
