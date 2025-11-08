@@ -28,11 +28,11 @@ html{
 --black-900: hsla(0, 0%, 10.2%, 1);
 --black: hsla(0, 0%, 0%, 1);
 --primary-light-100: hsla(257, 90%, 96.1%, 1);
---primary-light-200: hsla(260, 85.7%, 91.8%, 1);
+--primary-light-200: #e4d8fc;
 --primary-light-300: hsla(259, 87.1%, 87.8%, 1);
---primary-light-400: hsla(259, 85.7%, 83.5%, 1);
+--primary-light-400: #c8b1f9;
 --primary-light-500: hsla(259, 86.5%, 79.6%, 1);
---primary-light-600: hsla(259, 87.1%, 75.7%, 1);
+--primary-light-600: #ad8bf7;
 --primary-light-700: hsla(259, 86.3%, 71.4%, 1);
 --primary-light-800: hsla(259, 86.7%, 67.5%, 1);
 --primary-light-900: hsla(259, 86.2%, 63.1%, 1);
