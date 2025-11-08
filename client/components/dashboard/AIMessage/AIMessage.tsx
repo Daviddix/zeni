@@ -14,14 +14,15 @@ type UploadedImage = {
 
 type aiMessageProps = {
     messageToPerformAction : string;
-    imageData : UploadedImage | null
+    imageData : UploadedImage | null;
+    setShowModal: (show: boolean) => void;
 }
 
 type sendingStatusType = "sending" | "completed" | "error";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
-function AIMessage({messageToPerformAction, imageData} : aiMessageProps) {
+function AIMessage({messageToPerformAction, imageData, setShowModal} : aiMessageProps) {
     const [sendingStatus, setSendingStatus] = useState<sendingStatusType>("sending");
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [responseMessage, setResponseMessage] = useState<string>("");
@@ -138,7 +139,7 @@ function AIMessage({messageToPerformAction, imageData} : aiMessageProps) {
 
     {
         sendingStatus === "completed" && (
-            <p className="ai-message-text success-text">Your expense has been logged successfully. You can view all your expenses here : <Link href={"/dashboard/entries"}>All Expenses</Link></p>
+            <p className="ai-message-text success-text">Your expense has been logged successfully. You can view all your expenses here : <Link onClick={()=>{setShowModal(false)}}  href={"/dashboard/entries"}>All Expenses</Link></p>
         )
     }
     </div>

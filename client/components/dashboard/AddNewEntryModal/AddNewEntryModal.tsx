@@ -107,6 +107,7 @@ function AddNewEntryModal() {
     } else if(message.from == "AI"){
         return (
             <AIMessage
+            setShowModal={setShowModal}
             key={index}
             imageData={message.imageData}
             messageToPerformAction={message.messageToPerformAction}
