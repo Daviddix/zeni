@@ -38,7 +38,6 @@ function AddGoalModal({ setShowAddGoalModal, onSuccess, onShowSuccessMessage }: 
                 throw new Error("AI agent error",{cause : responseInJson});
             }
 
-            console.log("AI session response:", responseInJson);
             return responseInJson.sessionId;
         }
         catch(err){
@@ -73,7 +72,6 @@ function AddGoalModal({ setShowAddGoalModal, onSuccess, onShowSuccessMessage }: 
                 throw new Error("AI agent error",{cause : responseInJson});
             }
 
-            console.log("AI session response:", responseInJson);
             const textToDisplay = responseInJson.agentResponse[1].content.parts[0].functionResponse.response.message
             setSendingStatus("completed");
             setResponseMessage(textToDisplay)

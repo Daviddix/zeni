@@ -50,7 +50,6 @@ function AIMessage({messageToPerformAction, imageData, setShowModal} : aiMessage
                 throw new Error("AI agent error",{cause : responseInJson});
             }
 
-            console.log("AI session response:", responseInJson);
             return responseInJson.sessionId;
         }
         catch(err){
@@ -99,7 +98,6 @@ function AIMessage({messageToPerformAction, imageData, setShowModal} : aiMessage
                 throw new Error("AI agent error",{cause : responseInJson});
             }
 
-            console.log("AI session response:", responseInJson);
             const lastIndex = responseInJson.agentResponse.length - 1;
             const textToDisplay = responseInJson.agentResponse[lastIndex].content.parts[0].text
             setSendingStatus("completed");

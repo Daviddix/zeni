@@ -51,7 +51,6 @@ function Entries() {
         throw new Error("AI agent error", { cause: responseInJson });
       }
 
-      console.log("AI session response:", responseInJson);
       return responseInJson.sessionId;
     }
     catch (err) {

@@ -1,5 +1,4 @@
 "use client"
-import SingleGoal from "@/components/dashboard/SingleGoal/SingleGoal"
 import "./dashboard.css"
 import TransactionsTable from "@/components/dashboard/TransactionsTable/TransactionsTable"
 import TodaysDate from "@/components/dashboard/TodaysDate/TodaysDate"
